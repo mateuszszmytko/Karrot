@@ -1,0 +1,30 @@
+{
+  "name": "@karrot/core",
+  "version": "0.3.0",
+  "main": "bundlel/index.js",
+  "author": "Mateusz Szmytko (@Raa)",
+  "license": "MIT",
+  "dependencies": {
+    "reflect-metadata": "^0.1.12"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.3.5",
+    "jasmine": "^3.3.1",
+    "karma": "^3.1.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cli": "^2.0.0",
+    "karma-html-reporter": "^0.2.7",
+    "karma-jasmine": "^2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-webpack": "^3.0.5",
+    "ts-loader": "^5.2.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.1",
+    "webpack-cli": "^3.1.1"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js",
+    "build": "tsc --p tsconfig-build.json",
+    "watch": "tsc --watch --p tsconfig-build.json"
+  }
+}

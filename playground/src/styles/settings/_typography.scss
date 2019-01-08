@@ -1,0 +1,19 @@
+$fonts: (
+    default: 'Open Sans',
+    heading: 'Open Sans',
+);
+
+$browser-context: 16px;
+
+$base-font-size: 1rem;
+$font-sizes: ( 
+    heading: (xs: 2, md: 2.2, lg: 2.6, xl: 3), 
+    subheading: 1 1.2 1.4, 
+    default: 1, 
+    small: .8
+);
+
+$base-line-height: 1.5;
+
+$base-spacer: 1em;
+$spacers: ( 1: 6, 2: 1.5, 3: 1.25, 4: 1, 5: .75, 6: .5, );

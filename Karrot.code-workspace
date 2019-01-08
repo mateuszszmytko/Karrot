@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "playground"
+		},
+		{
+			"path": "core"
+		},
+		{
+			"path": "common"
+		}
+	],
+	"settings": {}
+}

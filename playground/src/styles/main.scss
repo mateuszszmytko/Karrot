@@ -1,0 +1,17 @@
+
+@import 'settings/__settings';
+@import 'tools/__tools';
+
+@import 'vendors/__vendors';
+
+@import 'objects/__objects';
+@import 'elements/__elements';
+@import 'components/__components';
+@import 'patterns/__patterns';
+
+@import 'utilities/__utilities';
+
+* {
+    outline: none;
+    box-sizing: border-box;
+}

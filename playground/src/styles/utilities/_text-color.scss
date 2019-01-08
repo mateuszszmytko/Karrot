@@ -1,0 +1,5 @@
+@each $s, $s-array in $colors {
+    .u-text-color-#{$s} {
+        color: $s-array;
+    }
+}

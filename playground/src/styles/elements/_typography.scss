@@ -1,0 +1,20 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @if(font('heading') != font('default')) {
+        font-family: font('heading');
+    }
+    
+    margin: spacing('default') 0;
+    color: color('heading');
+    line-height: $base-line-height;
+}
+
+p {
+    margin: spacing('default') 0;
+    line-height: $base-line-height;
+}
+

@@ -1,0 +1,19 @@
+.c-form {
+    position: relative;
+    
+    max-width: 400px;
+    margin: 2em auto;
+}
+
+.c-form__group {
+    position: relative;
+    margin: 3em 0 2em;
+
+    label {
+        @include font-size('small');
+    }
+}
+
+.c-form__submit {
+    margin: 2em 0;
+}

@@ -1,0 +1,35 @@
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='phone'] {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: .8em 0;
+    
+    transition: box-shadow .1s;
+
+    border: 0;
+    border-bottom: 1px solid color(primary);
+    
+    
+    @include font-size('default');
+    font-weight: 300;
+    line-height: 1.5;
+
+    &.error {
+        border-color: transparent;
+        box-shadow: inset 0 -3px 0 0 transparentize(color(error), .6);
+    }
+}
+
+label {
+    display: block;
+}
+
+.error-message {
+    margin: .2em 0;
+    color: color(error);
+    @include font-size('small');
+}

@@ -1,0 +1,37 @@
+@function em($pixels, $context: $browser-context) {
+    @return #{$pixels/$context}em;
+}
+
+@function rem($pixels, $context: $browser-context) {
+    @return #{$pixels/$context}rem;
+}
+
+@function color($id) {
+    $color-var: map-get($colors, $id);
+
+    @if not $color-var {
+        @error 'undefined color name: ' + $id;
+    }
+
+    @return $color-var;
+}
+
+@function font($id) {
+    $font-var: map-get($fonts, $id);
+
+    @if not $font-var {
+        @error 'undefined font name: ' + $id;
+    }
+
+    @return $font-var;
+}
+
+@function spacing($id) {
+    $spacing-var: map-get($spacings, $id);
+
+    @if not $spacing-var {
+        @error 'undefined spacing name: ' + $id;
+    }
+
+    @return $base-spacing * $spacing-var;
+}

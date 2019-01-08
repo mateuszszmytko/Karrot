@@ -1,0 +1,17 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./bundles",
+		"baseUrl": ".",
+        "paths": {
+            
+        },
+        "types": [
+            "jasmine"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "bundles",
+    ],
+}
