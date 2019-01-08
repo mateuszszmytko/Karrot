@@ -1,0 +1,28 @@
+.k-form__submit--circle {
+    position: relative;
+
+    &.is-active {
+        padding-right: 50px;
+
+        &::after {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            margin-left: 15px;
+            border: 2px solid transparent;
+            border-top: 2px solid #ddd;
+            border-radius: 50%;
+            line-height: 1;
+            content: ' ';
+            vertical-align: bottom;
+            animation: spin .5s linear infinite;
+        }
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

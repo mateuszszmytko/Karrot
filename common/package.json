@@ -1,0 +1,22 @@
+{
+  "name": "@karrot/common",
+  "version": "0.3.0",
+  "description": "",
+  "main": "bundles/index.js",
+  "style": "styles.scss",
+  "peerDependencies": {
+    "@karrot/core": "0.3.0"
+  },
+  "dependencies": {
+    "@types/reflect-metadata": "^0.1.0",
+    "reflect-metadata": "^0.1.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "tsc --p tsconfig-build.json",
+    "watch": "tsc --watch --p tsconfig-build.json"
+  },
+  "author": "Mateusz Szmytko (@Raa)",
+  "license": "ISC"
+}

@@ -1,0 +1,18 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./bundles",
+		"baseUrl": ".",
+        "paths": {
+            "@karrot/core": [
+                "../core/bundles"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "bundles",
+        "./test.ts",
+        "**/*.spec.ts"
+    ],
+}
