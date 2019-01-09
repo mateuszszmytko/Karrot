@@ -1,4 +1,5 @@
 "use strict";
+/* tslint:disable:no-any */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -144,4 +145,4 @@ var Hooks = /** @class */ (function () {
     return Hooks;
 }());
 exports.Hooks = Hooks;
-//# sourceMappingURL=controller-hooks.js.map
+//# sourceMappingURL=hooks.js.map

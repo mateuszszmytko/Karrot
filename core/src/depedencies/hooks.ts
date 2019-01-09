@@ -1,5 +1,3 @@
-import { IControllerDev } from "../../interfaces";
-
 /* tslint:disable:no-any */
 
 export type TAction<A> = {
