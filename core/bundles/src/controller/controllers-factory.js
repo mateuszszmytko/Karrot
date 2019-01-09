@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var injector_1 = require("../di/injector");
 var controller_utils_1 = require("../utils/controller-utils");
+var to_camel_case_1 = require("../utils/to-camel-case");
 var controller_settings_1 = require("./depedencies/controller-settings");
 /* tslint:disable:no-any */
 var ControllersFactory = /** @class */ (function () {
@@ -12,7 +13,7 @@ var ControllersFactory = /** @class */ (function () {
     ControllersFactory.prototype.create = function (constructor) {
         var controllers = [];
         var meta = controller_utils_1.ControllerUtils.getControllerMeta(constructor);
-        var controllerName = meta.name;
+        var controllerName = to_camel_case_1.toCamelCase(meta.name);
         var elements = Array.from(document.querySelectorAll("[k-name]"));
         for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
             var element = elements_1[_i];
@@ -20,7 +21,8 @@ var ControllersFactory = /** @class */ (function () {
             var kNames = kNameValue.replace(/\s+/g, '').split(';');
             for (var _a = 0, kNames_1 = kNames; _a < kNames_1.length; _a++) {
                 var kName = kNames_1[_a];
-                if (kName === controllerName) {
+                var camelKName = to_camel_case_1.toCamelCase(kName);
+                if (camelKName === controllerName) {
                     var controller = this.createController(constructor, element);
                     if (controller) {
                         controller._controllerElement = element;

@@ -3,6 +3,7 @@ import { IConstructorAny } from "../interfaces/constructor.interface";
 
 import { IInjector, Injector } from "../di/injector";
 import { ControllerUtils } from "../utils/controller-utils";
+import { toCamelCase } from "../utils/to-camel-case";
 import { Settings } from "./depedencies/controller-settings";
 
 /* tslint:disable:no-any */
@@ -18,7 +19,7 @@ export class ControllersFactory {
         const controllers: IControllerDev[] = [];
 
         const meta = ControllerUtils.getControllerMeta(constructor);
-        const controllerName = meta.name;
+        const controllerName = toCamelCase(meta.name);
 
         const elements = Array.from(document.querySelectorAll(`[k-name]`));
 
@@ -27,8 +28,9 @@ export class ControllersFactory {
             const kNames = kNameValue.replace(/\s+/g, '').split(';');
 
             for (const kName of kNames) {
+                const camelKName = toCamelCase(kName);
 
-                if (kName === controllerName) {
+                if (camelKName === controllerName) {
                     const controller = this.createController(constructor, element as HTMLElement);
 
                     if (controller) {
