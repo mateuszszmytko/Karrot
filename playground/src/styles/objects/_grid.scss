@@ -28,15 +28,15 @@
     @media (min-width: $b-width) {
         // o-grid--md-align-center
         // o-grid--align-center-md
-        .o-grid-#{$b}-align-start 	{ align-items: flex-start; }
-        .o-grid-#{$b}-align-center 	{ align-items: center; }
-        .o-grid-#{$b}-align-end 		{ align-items: flex-end; }
+        .o-grid-#{$_b}-align-start 	{ align-items: flex-start; }
+        .o-grid-#{$_b}-align-center 	{ align-items: center; }
+        .o-grid-#{$_b}-align-end 		{ align-items: flex-end; }
         
-        .o-grid-#{$b}-justify-start 	{ justify-content: flex-start; }
-        .o-grid-#{$b}-justify-end  	{ justify-content: flex-end; }
-        .o-grid-#{$b}-justify-center  	{ justify-content: center; }
-        .o-grid-#{$b}-justify-around  	{ justify-content: space-around; }
-        .o-grid-#{$b}-justify-between  { justify-content: space-between; }
+        .o-grid-#{$_b}-justify-start 	{ justify-content: flex-start; }
+        .o-grid-#{$_b}-justify-end  	{ justify-content: flex-end; }
+        .o-grid-#{$_b}-justify-center  	{ justify-content: center; }
+        .o-grid-#{$_b}-justify-around  	{ justify-content: space-around; }
+        .o-grid-#{$_b}-justify-between  { justify-content: space-between; }
 
         .#{$b} {
             flex-basis: 0;

@@ -1,0 +1,8 @@
+.p-header {
+    margin: 150px 0;
+}
+
+.p-header__title {
+    @include font-size('title');
+    font-weight: 300;
+}

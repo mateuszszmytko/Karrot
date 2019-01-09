@@ -15,7 +15,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@karrot/*": [
-				"../*"
+				"../*/index.ts"
 			]
 		},
 		"types": [

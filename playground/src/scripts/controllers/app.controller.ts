@@ -22,11 +22,13 @@ export class AppController {
     @Item('myForm')
     public form: HTMLElement;
 
+    private _data: { a: string, c: string };
+
     constructor(private testD: Test, private settings: Settings) {
+        this._data = testD.data;
     }
 
     public kOnInit(): void {
-        this.testD.doLog();
 
         console.log(this.form);
 
@@ -34,13 +36,18 @@ export class AppController {
             .class.add('testform', 'my-test-form')
             .state.set('active');
 
-        this.test.hooks.addAction('testAction', () => {
-            //
-        }, 100);
+        if (this.test) {
+            this.test.hooks.addAction('testAction', () => {
+                console.log(this._data);
+                this.testD.doLog();
 
-        this.test.hooks.addFilter('message', (message: string) => {
-            return message.split('').reverse().join('');
-        });
+                console.log(this._data);
+            }, 100);
+
+            this.test.hooks.addFilter('message', (message: string) => {
+                return message.split('').reverse().join('');
+            });
+        }
 
         this.myForm.hooks.addFilter('inputValidation', (capsule: InputValidationCapsule) => {
             if (capsule.input.name !== 'name') {
@@ -56,10 +63,13 @@ export class AppController {
 
             return capsule;
         });
-    }
 
-    public onClick(e: Event): void {
-        console.log('click');
+        this.testD.hooks.addAction('dataChange', (data: { a: string, c: string }) => {
+            console.log('data change');
+
+            this._data = data;
+        });
+
     }
 
 }
