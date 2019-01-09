@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var injector_1 = require("../di/injector");
 var controller_utils_1 = require("../utils/controller-utils");
-var controller_hooks_1 = require("./depedencies/controller-hooks");
 var controller_settings_1 = require("./depedencies/controller-settings");
 /* tslint:disable:no-any */
 var ControllersFactory = /** @class */ (function () {
@@ -38,11 +37,9 @@ var ControllersFactory = /** @class */ (function () {
         }
         var controllerMeta = controller_utils_1.ControllerUtils.getControllerMeta(constructor);
         var settings = new controller_settings_1.Settings(element, constructor);
-        var hooks = new controller_hooks_1.Hooks();
         var injector = new injector_1.Injector(this._injector);
         injector.addSingleton(HTMLElement, element);
         injector.addSingleton(controller_settings_1.Settings, settings);
-        injector.addSingleton(controller_hooks_1.Hooks, hooks);
         if (controllerMeta.depedencies) {
             for (var _i = 0, _a = controllerMeta.depedencies; _i < _a.length; _i++) {
                 var depedencyCon = _a[_i];

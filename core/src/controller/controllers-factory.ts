@@ -3,7 +3,6 @@ import { IConstructorAny } from "../interfaces/constructor.interface";
 
 import { IInjector, Injector } from "../di/injector";
 import { ControllerUtils } from "../utils/controller-utils";
-import { Hooks } from "./depedencies/controller-hooks";
 import { Settings } from "./depedencies/controller-settings";
 
 /* tslint:disable:no-any */
@@ -52,12 +51,10 @@ export class ControllersFactory {
         const controllerMeta = ControllerUtils.getControllerMeta(constructor);
 
         const settings = new Settings(element, constructor);
-        const hooks = new Hooks();
         const injector = new Injector(this._injector);
 
         injector.addSingleton(HTMLElement, element as HTMLElement);
         injector.addSingleton(Settings, settings);
-        injector.addSingleton(Hooks, hooks);
 
         if (controllerMeta.depedencies) {
             for (const depedencyCon of controllerMeta.depedencies) {

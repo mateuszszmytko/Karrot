@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var controller_utils_1 = require("../../utils/controller-utils");
 /* tslint:disable:no-any */
 var ItemsParser = /** @class */ (function () {
-    function ItemsParser(_controllers) {
-        this._controllers = _controllers;
+    function ItemsParser(controllersStorage) {
+        this.controllersStorage = controllersStorage;
     }
     ItemsParser.prototype.parse = function (controller) {
         var meta = controller_utils_1.ControllerUtils.getControllerMeta(controller);
@@ -37,7 +37,7 @@ var ItemsParser = /** @class */ (function () {
             _s = Object.getPrototypeOf(_s);
         }
         if (type === Array) {
-            var controllersByName = this._controllers.filter(function (c) {
+            var controllersByName = this.controllersStorage.controllers.filter(function (c) {
                 var meta = controller_utils_1.ControllerUtils.getControllerMeta(c);
                 return meta.name === name;
             });
@@ -50,7 +50,7 @@ var ItemsParser = /** @class */ (function () {
         }
         var itemControllers = [];
         var _loop_1 = function (element) {
-            itemControllers.push.apply(itemControllers, this_1._controllers.filter(function (c) { return c._controllerElement === element; }));
+            itemControllers.push.apply(itemControllers, this_1.controllersStorage.controllers.filter(function (c) { return c._controllerElement === element; }));
         };
         var this_1 = this;
         for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {

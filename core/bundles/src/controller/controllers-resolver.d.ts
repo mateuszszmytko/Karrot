@@ -1,17 +1,15 @@
-import { IInjector } from "../di/injector";
-import { IConstructorAny } from "../interfaces/constructor.interface";
-import { IControllerDev } from "../interfaces/controller.interface";
+import { ControllersFactory } from "./controllers-factory";
+import { ItemsParser } from "./parse/items-parser";
+import { ControllersStorage } from './controllers-storage';
 export declare type ControllersResolverArgs = {
-    controllersConstructors: IConstructorAny[];
-    rootInjector: IInjector;
+    controllersStorage: ControllersStorage;
+    controllersFactory: ControllersFactory;
+    itemsParser: ItemsParser;
 };
 export declare class ControllersResolver {
-    readonly controllers: IControllerDev[];
-    private _itemsParser;
     private _controllersFactory;
-    private _controllersConstructors;
-    private _rootInjector;
-    private _controllers;
+    private _controllersStorage;
+    private _itemsParser;
     constructor(args: ControllersResolverArgs);
     onInit(): void;
     private createControllers;
