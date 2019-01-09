@@ -1,6 +1,7 @@
 import { IControllerDev } from "../../interfaces";
 import { TItem } from "../../interfaces/item.interface";
 import { ControllerUtils } from "../../utils/controller-utils";
+import { toCamelCase } from "../../utils/to-camel-case";
 import { ControllersStorage } from "../controllers-storage";
 
 /* tslint:disable:no-any */
@@ -111,13 +112,16 @@ export class ItemsParser {
         }
 
         const returnElements = [];
+        const itemName = toCamelCase(item.name);
 
         for (const element of elements) {
             const kNameValue = element.getAttribute('k-name') as string;
             const kNames = kNameValue.replace(/\s+/g, '').split(';');
 
             for (const kName of kNames) {
-                if (kName === item.name) {
+                const camelKName = toCamelCase(kName);
+
+                if (camelKName === itemName) {
                     returnElements.push(element as HTMLElement);
                 }
             }

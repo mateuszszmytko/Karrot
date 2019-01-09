@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var controller_utils_1 = require("../../utils/controller-utils");
+var to_camel_case_1 = require("../../utils/to-camel-case");
 /* tslint:disable:no-any */
 var ItemsParser = /** @class */ (function () {
     function ItemsParser(controllersStorage) {
@@ -91,13 +92,15 @@ var ItemsParser = /** @class */ (function () {
                 break;
         }
         var returnElements = [];
+        var itemName = to_camel_case_1.toCamelCase(item.name);
         for (var _i = 0, elements_2 = elements; _i < elements_2.length; _i++) {
             var element = elements_2[_i];
             var kNameValue = element.getAttribute('k-name');
             var kNames = kNameValue.replace(/\s+/g, '').split(';');
             for (var _a = 0, kNames_1 = kNames; _a < kNames_1.length; _a++) {
                 var kName = kNames_1[_a];
-                if (kName === item.name) {
+                var camelKName = to_camel_case_1.toCamelCase(kName);
+                if (camelKName === itemName) {
                     returnElements.push(element);
                 }
             }
