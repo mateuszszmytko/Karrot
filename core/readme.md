@@ -1,2 +1,2 @@
-# @Karrot/common
+# @Karrot/core
 Description will be soon.

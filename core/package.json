@@ -1,7 +1,7 @@
 {
   "name": "@karrot/core",
-  "version": "0.3.0",
-  "main": "bundlel/index.js",
+  "version": "0.3.1",
+  "main": "bundles/index.js",
   "author": "Mateusz Szmytko (@Raa)",
   "license": "MIT",
   "dependencies": {

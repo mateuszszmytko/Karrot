@@ -1,11 +1,12 @@
 import { IControllerDev } from "../../interfaces";
 import { TItem } from "../../interfaces/item.interface";
 import { ControllerUtils } from "../../utils/controller-utils";
+import { ControllersStorage } from "../controllers-storage";
 
 /* tslint:disable:no-any */
 
 export class ItemsParser {
-    constructor(private _controllers: IControllerDev[]) {
+    constructor(private controllersStorage: ControllersStorage) {
     }
 
     public parse(controller: IControllerDev): void {
@@ -48,7 +49,7 @@ export class ItemsParser {
         }
 
         if (type === Array) {
-            const controllersByName = this._controllers.filter(c => {
+            const controllersByName = this.controllersStorage.controllers.filter(c => {
                 const meta = ControllerUtils.getControllerMeta(c);
 
                 return meta.name === name;
@@ -64,7 +65,7 @@ export class ItemsParser {
         const itemControllers = [];
 
         for (const element of elements) {
-            itemControllers.push(...this._controllers.filter(c => c._controllerElement === element));
+            itemControllers.push(...this.controllersStorage.controllers.filter(c => c._controllerElement === element));
         }
 
         for (const itemController of itemControllers) {
