@@ -21,6 +21,7 @@ export class Settings<T = any> {
 
     constructor(private targetElement: HTMLElement, controllerConstructor: IConstructorAny) {
         const controllerSettingsMetadata = Reflect.getMetadata('Controller:settings', controllerConstructor);
+
         for (const key in controllerSettingsMetadata) {
             if (controllerSettingsMetadata.hasOwnProperty(key)) {
                 const value = controllerSettingsMetadata[key];
@@ -32,26 +33,83 @@ export class Settings<T = any> {
         const dataSettings = targetElement.dataset;
 
         for (const key in dataSettings) {
-            if (!key) {
+            if (!key || !dataSettings.hasOwnProperty(key)) {
                 continue;
             }
 
-            if (dataSettings.hasOwnProperty(key)) {
-                let value;
-                try {
-                    const val = dataSettings[key];
+            let value = dataSettings[key];
 
-                    if (!val) {
-                        throw new Error();
+            if (!value) {
+                continue;
+            }
+
+            // trying to parse array-line strings
+            // like "item1; item2" or "item1: value1; item2: value2"
+
+            if (value.indexOf(';') > 0 && !this.settings.get('skipArrayParsing')) {
+                const valueArr = value.replace(/\;+\s+/g, ';').split(';');
+                let newVal = value;
+                let isObject = false;
+
+                for (const valueChild of valueArr) {
+                    if (valueChild.indexOf(':') > 0) {
+                        isObject = true;
+
+                        break;
                     }
-
-                    value = JSON.parse(val);
-                } catch (e) {
-                    value = dataSettings[key];
                 }
 
-                this.settings.set(key, value);
+                newVal = isObject ? '{' : '[';
+
+                for (const valueChild of valueArr) {
+                    if (valueChild === '') {
+                        continue;
+                    }
+
+                    if (isObject) {
+                        const valueChildArr = valueChild.replace(/\:+\s+/g, ':').split(':');
+
+                        newVal += `"${valueChildArr[0]}": `;
+                        try {
+                            JSON.parse(valueChildArr[1] || valueChildArr[0]);
+                            newVal += valueChildArr[1] + ',';
+
+                        } catch (e) {
+                            newVal += `"${valueChildArr[1] || valueChildArr[0]}",`;
+                        }
+                        //
+                    } else {
+                        try {
+                            JSON.parse(valueChild);
+                            newVal += valueChild + ',';
+
+                        } catch (e) {
+                            newVal += `"${valueChild}",`;
+                        }
+                    }
+                }
+
+                newVal = newVal.substr(0, newVal.length - 1);
+
+                newVal += isObject ? '}' : ']';
+
+                value = newVal;
             }
+
+            try {
+                const val = value
+                    .replace(/\'/g, `"`);
+
+                if (!val) {
+                    throw new Error();
+                }
+
+                value = JSON.parse(val);
+            } catch (e) {
+                //
+            }
+
+            this.settings.set(key, value);
         }
     }
 
