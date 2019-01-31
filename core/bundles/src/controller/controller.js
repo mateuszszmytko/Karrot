@@ -9,6 +9,9 @@ function Controller(data) {
         Reflect.defineMetadata('Controller:name', data.name, con);
         Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
+        if (data.paramTypes) {
+            Reflect.defineMetadata('design:paramtypes', data.paramTypes, con);
+        }
         // tslint:disable-next-line
         con.prototype.__karrotConstructor = function () {
             this._controllerId = controller_utils_1.ControllerUtils.getControllerId();

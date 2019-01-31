@@ -22,7 +22,10 @@ var ItemsParser = /** @class */ (function () {
         }
     };
     ItemsParser.prototype.getItemObject = function (item, controller) {
-        var type = Reflect.getMetadata("design:type", controller, item.propertyKey);
+        if (item.capsule.type) {
+            Reflect.defineMetadata('design:type', item.capsule.type, controller, item.propertyKey);
+        }
+        var type = Reflect.getMetadata("design:type", controller, item.propertyKey) || HTMLElement;
         var elements = this.getElementsByName(item, controller);
         if (!type) {
             return;
@@ -71,7 +74,7 @@ var ItemsParser = /** @class */ (function () {
     };
     ItemsParser.prototype.getElementsByName = function (item, controller) {
         var elements = [];
-        switch (item.searchStrategy) {
+        switch (item.capsule.searchStrategy) {
             case 'all':
                 elements = Array.from(document.querySelectorAll('[k-name]'));
                 break;

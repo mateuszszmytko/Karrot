@@ -12,7 +12,6 @@ export class KarrotImp {
 
     constructor(public args: IKarrotArgs) {
         this._rootInjector = new Injector();
-
         const controllersStorage = new ControllersStorage(args.controllers);
         const controllersFactory = new ControllersFactory(this._rootInjector);
         const itemsParser = new ItemsParser(controllersStorage);

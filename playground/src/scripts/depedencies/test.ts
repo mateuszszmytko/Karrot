@@ -22,8 +22,6 @@ export class Test {
     }
 
     public doLog(): Test {
-        console.log('log');
-
         this.data = {
             a: 'z',
             c: 'x',

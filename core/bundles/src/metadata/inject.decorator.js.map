@@ -1,0 +1,1 @@
+{"version":3,"file":"inject.decorator.js","sourceRoot":"","sources":["../../../src/metadata/inject.decorator.ts"],"names":[],"mappings":";;AAEA,2BAA2B;AAE3B,SAAgB,MAAM,CAAC,GAAoB;IACvC,OAAO,UAAC,MAAW,EAAE,WAAmB;QACpC,OAAO,CAAC,cAAc,CAAC,aAAa,EAAE,GAAG,EAAE,MAAM,EAAE,WAAW,CAAC,CAAC;IACpE,CAAC,CAAC;AACN,CAAC;AAJD,wBAIC"}

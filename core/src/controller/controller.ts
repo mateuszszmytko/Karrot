@@ -13,6 +13,10 @@ export function Controller<T>(data: IControllerArgs): (con: new (...args: any[])
         Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
 
+        if (data.paramTypes) {
+            Reflect.defineMetadata('design:paramtypes', data.paramTypes, con);
+        }
+
         // tslint:disable-next-line
         con.prototype.__karrotConstructor = function (this: IControllerDev) {
             this._controllerId = ControllerUtils.getControllerId();

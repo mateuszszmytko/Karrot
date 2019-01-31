@@ -1,5 +1,5 @@
 import { DOM, FormValidationController, InputValidationCapsule } from '@karrot/common';
-import { Controller, Hooks, Item, Settings } from '@karrot/core';
+import { Controller, Hooks, Item, Settings, Inject } from '@karrot/core';
 
 import { Test } from '../depedencies/test';
 import { TestController } from './test.controller';
@@ -32,7 +32,7 @@ export class AppController {
 
         console.log(this.form);
 
-        DOM(this.form)
+       /* DOM(this.form)
             .class.add('testform', 'my-test-form')
             .state.set('active');
 
@@ -68,7 +68,7 @@ export class AppController {
             console.log('data change');
 
             this._data = data;
-        });
+        });*/
 
     }
 

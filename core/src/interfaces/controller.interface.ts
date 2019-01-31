@@ -38,5 +38,6 @@ export interface IControllerDev extends IController {
 export interface IControllerArgs {
     name: string;
     depedencies?: IConstructorAny[];
+    paramTypes?: IConstructorAny[];
     settings?: {[key: string]: any};
 }

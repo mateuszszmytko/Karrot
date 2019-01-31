@@ -29,7 +29,11 @@ export class ItemsParser {
     }
 
     private getItemObject(item: TItem, controller: IControllerDev): any {
-        const type = Reflect.getMetadata("design:type", controller, item.propertyKey);
+        if (item.capsule.type) {
+            Reflect.defineMetadata('design:type', item.capsule.type, controller, item.propertyKey);
+        }
+
+        const type = Reflect.getMetadata("design:type", controller, item.propertyKey) || HTMLElement;
         const elements = this.getElementsByName(item, controller);
 
         if (!type) {
@@ -85,7 +89,7 @@ export class ItemsParser {
     private getElementsByName(item: TItem, controller: IControllerDev): HTMLElement[] {
         let elements: HTMLElement[] = [];
 
-        switch (item.searchStrategy) {
+        switch (item.capsule.searchStrategy) {
             case 'all':
                 elements = Array.from(document.querySelectorAll('[k-name]'));
                 break;
