@@ -7,6 +7,9 @@ function Controller(data) {
     // tslint:disable-next-line
     return function (con) {
         Reflect.defineMetadata('Controller:name', data.name, con);
+        if (data.selector) {
+            Reflect.defineMetadata('Controller:selector', data.selector, con);
+        }
         Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
         if (data.paramTypes) {

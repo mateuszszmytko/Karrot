@@ -16,6 +16,7 @@ export interface IController {
 
 export interface IControllerMeta {
     name: string;
+    selector?: string;
     items?: TItem[];
     eventListeners?: Array<{target: string, method: string, type: string}>;
     actions?: Array<{target: string, method: string, type: string, index: number}>;
@@ -37,6 +38,7 @@ export interface IControllerDev extends IController {
 
 export interface IControllerArgs {
     name: string;
+    selector?: string;
     depedencies?: IConstructorAny[];
     paramTypes?: IConstructorAny[];
     settings?: {[key: string]: any};

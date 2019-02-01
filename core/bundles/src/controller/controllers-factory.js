@@ -13,21 +13,35 @@ var ControllersFactory = /** @class */ (function () {
     ControllersFactory.prototype.create = function (constructor) {
         var controllers = [];
         var meta = controller_utils_1.ControllerUtils.getControllerMeta(constructor);
-        var controllerName = to_camel_case_1.toCamelCase(meta.name);
-        var elements = Array.from(document.querySelectorAll("[k-name]"));
-        for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
-            var element = elements_1[_i];
-            var kNameValue = element.getAttribute('k-name');
-            var kNames = kNameValue.replace(/\s+/g, '').split(';');
-            for (var _a = 0, kNames_1 = kNames; _a < kNames_1.length; _a++) {
-                var kName = kNames_1[_a];
-                var camelKName = to_camel_case_1.toCamelCase(kName);
-                if (camelKName === controllerName) {
-                    var controller = this.createController(constructor, element);
-                    if (controller) {
-                        controller._controllerElement = element;
-                        controllers.push(controller);
+        if (meta.name) {
+            var controllerName = to_camel_case_1.toCamelCase(meta.name);
+            var elements = Array.from(document.querySelectorAll("[k-name]"));
+            for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
+                var element = elements_1[_i];
+                var kNameValue = element.getAttribute('k-name');
+                var kNames = kNameValue.replace(/\s+/g, '').split(';');
+                for (var _a = 0, kNames_1 = kNames; _a < kNames_1.length; _a++) {
+                    var kName = kNames_1[_a];
+                    var camelKName = to_camel_case_1.toCamelCase(kName);
+                    if (camelKName === controllerName) {
+                        var controller = this.createController(constructor, element);
+                        if (controller) {
+                            controller._controllerElement = element;
+                            controllers.push(controller);
+                        }
                     }
+                }
+            }
+        }
+        if (meta.selector) {
+            //
+            var elements = Array.from(document.querySelectorAll(meta.selector));
+            for (var _b = 0, elements_2 = elements; _b < elements_2.length; _b++) {
+                var element = elements_2[_b];
+                var controller = this.createController(constructor, element);
+                if (controller) {
+                    controller._controllerElement = element;
+                    controllers.push(controller);
                 }
             }
         }

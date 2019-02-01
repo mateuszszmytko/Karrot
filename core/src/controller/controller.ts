@@ -10,6 +10,11 @@ export function Controller<T>(data: IControllerArgs): (con: new (...args: any[])
     // tslint:disable-next-line
     return <T>(con: new (...args: any[]) => T) => {
         Reflect.defineMetadata('Controller:name', data.name, con);
+
+        if (data.selector) {
+            Reflect.defineMetadata('Controller:selector', data.selector, con);
+        }
+
         Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
 

@@ -19,24 +19,41 @@ export class ControllersFactory {
         const controllers: IControllerDev[] = [];
 
         const meta = ControllerUtils.getControllerMeta(constructor);
-        const controllerName = toCamelCase(meta.name);
 
-        const elements = Array.from(document.querySelectorAll(`[k-name]`));
+        if (meta.name) {
+            const controllerName = toCamelCase(meta.name);
 
-        for (const element of elements) {
-            const kNameValue = element.getAttribute('k-name') as string;
-            const kNames = kNameValue.replace(/\s+/g, '').split(';');
+            const elements = Array.from(document.querySelectorAll(`[k-name]`));
 
-            for (const kName of kNames) {
-                const camelKName = toCamelCase(kName);
+            for (const element of elements) {
+                const kNameValue = element.getAttribute('k-name') as string;
+                const kNames = kNameValue.replace(/\s+/g, '').split(';');
 
-                if (camelKName === controllerName) {
-                    const controller = this.createController(constructor, element as HTMLElement);
+                for (const kName of kNames) {
+                    const camelKName = toCamelCase(kName);
 
-                    if (controller) {
-                        controller._controllerElement = element as HTMLElement;
-                        controllers.push(controller);
+                    if (camelKName === controllerName) {
+                        const controller = this.createController(constructor, element as HTMLElement);
+
+                        if (controller) {
+                            controller._controllerElement = element as HTMLElement;
+                            controllers.push(controller);
+                        }
                     }
+                }
+            }
+        }
+
+        if (meta.selector) {
+            //
+            const elements = Array.from(document.querySelectorAll(meta.selector));
+
+            for (const element of elements) {
+                const controller = this.createController(constructor, element as HTMLElement);
+
+                if (controller) {
+                    controller._controllerElement = element as HTMLElement;
+                    controllers.push(controller);
                 }
             }
         }

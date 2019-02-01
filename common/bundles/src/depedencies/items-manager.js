@@ -47,10 +47,9 @@ var ItemsManager = /** @class */ (function () {
         }
         return itemsElements;
     };
-    var _a;
     ItemsManager = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [typeof (_a = typeof core_1.ControllersStorage !== "undefined" && core_1.ControllersStorage) === "function" ? _a : Object])
+        __metadata("design:paramtypes", [core_1.ControllersStorage])
     ], ItemsManager);
     return ItemsManager;
 }());

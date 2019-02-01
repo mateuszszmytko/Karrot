@@ -187,7 +187,6 @@ var FormAjaxController = /** @class */ (function () {
             });
         });
     };
-    var _a, _b;
     __decorate([
         core_1.Item('formOutput', 'siblings'),
         __metadata("design:type", HTMLElement)
@@ -199,6 +198,7 @@ var FormAjaxController = /** @class */ (function () {
     FormAjaxController = __decorate([
         core_1.Controller({
             name: 'formAjax',
+            selector: '.jsFormAjax',
             settings: {
                 clearAfterSending: true,
                 defaultSentEvents: true,
@@ -207,7 +207,9 @@ var FormAjaxController = /** @class */ (function () {
                 method: 'POST',
             },
         }),
-        __metadata("design:paramtypes", [HTMLFormElement, typeof (_a = typeof core_1.Hooks !== "undefined" && core_1.Hooks) === "function" ? _a : Object, typeof (_b = typeof core_1.Settings !== "undefined" && core_1.Settings) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [HTMLFormElement,
+            core_1.Hooks,
+            core_1.Settings])
     ], FormAjaxController);
     return FormAjaxController;
 }());

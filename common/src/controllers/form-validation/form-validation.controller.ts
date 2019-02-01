@@ -25,6 +25,7 @@ type FormSettings = {
 
 @Controller({
     name: 'formValidation',
+    selector: '.jsFormValidation',
     settings: {
         defaultValidationEvents: true,
         validationType: 'mixed',

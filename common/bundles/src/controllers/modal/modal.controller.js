@@ -211,7 +211,6 @@ var ModalController = /** @class */ (function () {
             });
         });
     };
-    var _a, _b;
     __decorate([
         core_1.Item('confirm'),
         __metadata("design:type", Array)
@@ -236,7 +235,9 @@ var ModalController = /** @class */ (function () {
                 positionY: 'middle',
             },
         }),
-        __metadata("design:paramtypes", [HTMLElement, typeof (_a = typeof core_1.Hooks !== "undefined" && core_1.Hooks) === "function" ? _a : Object, typeof (_b = typeof core_1.Settings !== "undefined" && core_1.Settings) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [HTMLElement,
+            core_1.Hooks,
+            core_1.Settings])
     ], ModalController);
     return ModalController;
 }());

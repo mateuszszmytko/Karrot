@@ -88,12 +88,11 @@ var ScrollToController = /** @class */ (function () {
             });
         });
     };
-    var _a;
     ScrollToController = __decorate([
         core_1.Controller({
             name: 'scrollTo',
         }),
-        __metadata("design:paramtypes", [HTMLElement, typeof (_a = typeof core_1.Hooks !== "undefined" && core_1.Hooks) === "function" ? _a : Object])
+        __metadata("design:paramtypes", [HTMLElement, core_1.Hooks])
     ], ScrollToController);
     return ScrollToController;
 }());

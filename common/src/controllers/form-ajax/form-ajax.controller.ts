@@ -27,6 +27,7 @@ enum FormStatus {
 
 @Controller({
     name: 'formAjax',
+    selector: '.jsFormAjax',
     settings: {
         clearAfterSending: true,
         defaultSentEvents: true,
@@ -47,8 +48,8 @@ export class FormAjaxController {
     private status: FormStatus = FormStatus.None;
 
     constructor(private form: HTMLFormElement,
-        public hooks: Hooks<IFormActions, IFormFilters>,
-        public settings: Settings<FormSettings>) { }
+                public hooks: Hooks<IFormActions, IFormFilters>,
+                public settings: Settings<FormSettings>) { }
 
     public kOnInit(): void {
         this.inputs = Array.from(this.form.querySelectorAll('input'));
@@ -171,33 +172,4 @@ export class FormAjaxController {
         }
     }
 
-}
-
-class CatService {
-    async getCatImage() {
-        return fetch('http://aws.random.cat/meow%27')
-            .then((r) => r.json)
-            .then((json) => json.file);
-    }
-}
-
-
-class CatManager {
-    constructor(input, container) {
-        this.input = input;
-        this.container = container;
-        this.catService = new CatService();
-    }
-
-    onInit() {
-        this.input.addEventListener(async (e) => {
-            this.changeImage();
-        });
-    }
-
-    async changeImage() {
-        const catUrl // = asd
-
-        // cośtamzróbwinnerhtml
-    }
 }

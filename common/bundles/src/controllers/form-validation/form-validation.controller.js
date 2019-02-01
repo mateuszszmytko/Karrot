@@ -186,16 +186,18 @@ var FormValidationController = /** @class */ (function () {
             });
         });
     };
-    var _a, _b;
     FormValidationController = __decorate([
         core_1.Controller({
             name: 'formValidation',
+            selector: '.jsFormValidation',
             settings: {
                 defaultValidationEvents: true,
                 validationType: 'mixed',
             },
         }),
-        __metadata("design:paramtypes", [HTMLFormElement, typeof (_a = typeof core_1.Hooks !== "undefined" && core_1.Hooks) === "function" ? _a : Object, typeof (_b = typeof core_1.Settings !== "undefined" && core_1.Settings) === "function" ? _b : Object])
+        __metadata("design:paramtypes", [HTMLFormElement,
+            core_1.Hooks,
+            core_1.Settings])
     ], FormValidationController);
     return FormValidationController;
 }());

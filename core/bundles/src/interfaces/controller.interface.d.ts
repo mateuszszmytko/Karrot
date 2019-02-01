@@ -10,6 +10,7 @@ export interface IController {
 }
 export interface IControllerMeta {
     name: string;
+    selector?: string;
     items?: TItem[];
     eventListeners?: Array<{
         target: string;
@@ -35,6 +36,7 @@ export interface IControllerDev extends IController {
 }
 export interface IControllerArgs {
     name: string;
+    selector?: string;
     depedencies?: IConstructorAny[];
     paramTypes?: IConstructorAny[];
     settings?: {
