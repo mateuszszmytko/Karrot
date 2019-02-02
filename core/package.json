@@ -25,6 +25,7 @@
   "scripts": {
     "test": "karma start karma.conf.js",
     "build": "tsc --p tsconfig-build.json",
+    "build:dist": "webpack --config webpack.js",
     "watch": "tsc --watch --p tsconfig-build.json"
   }
 }
