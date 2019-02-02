@@ -4,4 +4,4 @@ export { ControllersFactory } from './controllers-factory';
 export { ControllersResolver } from './controllers-resolver';
 export { ControllersStorage } from './controllers-storage';
 
-export { Settings } from './depedencies/controller-settings';
+export { Settings } from './dependencies/controller-settings';

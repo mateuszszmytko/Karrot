@@ -4,16 +4,16 @@ import { Injector } from "./injector";
 /* tslint:disable:no-any */
 
 @Injectable()
-export class STestDepedency {
+export class STestDependency {
     constructor(public message: string) {
         //
     }
 }
 
 @Injectable()
-export class TestDepedency {
+export class TestDependency {
     public counter: number = 0;
-    constructor(public sTestDepedency: STestDepedency) {
+    constructor(public sTestDependency: STestDependency) {
         //
     }
 
@@ -23,9 +23,9 @@ export class TestDepedency {
 }
 
 @Injectable()
-export class TestDepedency2 {
+export class TestDependency2 {
     public counter: number = 0;
-    constructor(public testDepedency: TestDepedency) {
+    constructor(public testDependency: TestDependency) {
         //
     }
 
@@ -36,9 +36,9 @@ export class TestDepedency2 {
 
 @Injectable()
 export class TestClass {
-    constructor(public testDepedency2: TestDepedency2,
-                public testDepedency: TestDepedency,
-                public sTestDepedency: STestDepedency) {
+    constructor(public testDependency2: TestDependency2,
+                public testDependency: TestDependency,
+                public sTestDependency: STestDependency) {
         //
     }
 }
@@ -49,39 +49,39 @@ describe('Injector', () => {
         console.log('%c Injector ', 'background: #222; color: #bada55');
 
         injector = new Injector();
-        injector.addTransient(TestDepedency);
-        injector.addSingleton(TestDepedency2);
-        injector.addSingleton(STestDepedency, new STestDepedency('testMessage'));
+        injector.addTransient(TestDependency);
+        injector.addSingleton(TestDependency2);
+        injector.addSingleton(STestDependency, new STestDependency('testMessage'));
 
         const test = injector.resolve(TestClass);
         const test2 = injector.resolve(TestClass);
-        console.log(test, test2, injector.depedencies);
+        console.log(test, test2, injector.dependencies);
     });
 
     afterAll(() => {
         console.log('%c end of Injector', 'background: #222; color: #bada55');
     });
 
-    it('should contains TestDepedency and TestDepedency2', () => {
-        expect(injector.depedencies[1].constructor).toBe(TestDepedency);
-        expect(injector.depedencies[2].constructor).toBe(TestDepedency2);
+    it('should contains TestDependency and TestDependency2', () => {
+        expect(injector.dependencies[1].constructor).toBe(TestDependency);
+        expect(injector.dependencies[2].constructor).toBe(TestDependency2);
     });
 
-    it('STestDepedency should contains message', () => {
-        const stestServive: STestDepedency = injector.getDepedency(STestDepedency) as STestDepedency;
+    it('STestDependency should contains message', () => {
+        const stestServive: STestDependency = injector.getDependency(STestDependency) as STestDependency;
 
         expect(stestServive).toBeDefined();
         expect(stestServive.message).toBe('testMessage');
     });
 
-    it('TestDepedency should be as argument of TestDepedency2', () => {
-        expect(injector.depedencies[2].testDepedency).toBe(injector.depedencies[1]);
+    it('TestDependency should be as argument of TestDependency2', () => {
+        expect(injector.dependencies[2].testDependency).toBe(injector.dependencies[1]);
     });
 
     it('transients objects should be different instances', () => {
-        const testDepedencys = injector.getDepedencys(TestDepedency);
+        const testDependencys = injector.getDependencys(TestDependency);
 
-        expect(testDepedencys.length).toBeGreaterThanOrEqual(2);
-        expect(testDepedencys[0]).not.toBe(testDepedencys[1]);
+        expect(testDependencys.length).toBeGreaterThanOrEqual(2);
+        expect(testDependencys[0]).not.toBe(testDependencys[1]);
     });
 });

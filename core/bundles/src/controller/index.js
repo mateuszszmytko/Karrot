@@ -8,6 +8,6 @@ var controllers_resolver_1 = require("./controllers-resolver");
 exports.ControllersResolver = controllers_resolver_1.ControllersResolver;
 var controllers_storage_1 = require("./controllers-storage");
 exports.ControllersStorage = controllers_storage_1.ControllersStorage;
-var controller_settings_1 = require("./depedencies/controller-settings");
+var controller_settings_1 = require("./dependencies/controller-settings");
 exports.Settings = controller_settings_1.Settings;
 //# sourceMappingURL=index.js.map

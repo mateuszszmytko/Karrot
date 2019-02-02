@@ -20,7 +20,7 @@ export interface IControllerMeta {
     items?: TItem[];
     eventListeners?: Array<{target: string, method: string, type: string}>;
     actions?: Array<{target: string, method: string, type: string, index: number}>;
-    depedencies?: IConstructorAny[];
+    dependencies?: IConstructorAny[];
 }
 
 export interface IControllerDev extends IController {
@@ -39,7 +39,7 @@ export interface IControllerDev extends IController {
 export interface IControllerArgs {
     name: string;
     selector?: string;
-    depedencies?: IConstructorAny[];
+    dependencies?: IConstructorAny[];
     paramTypes?: IConstructorAny[];
     settings?: {[key: string]: any};
 }

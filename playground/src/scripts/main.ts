@@ -8,12 +8,12 @@ import { FormAjaxController,
 
 import { AppController } from "./controllers/app.controller";
 import { TestController } from "./controllers/test.controller";
-import { Test } from "./depedencies/test";
+import { Test } from "./dependencies/test";
 
 import { ClickToggleController } from "./controllers/click-toggle.controller";
 
 Karrot({
 	controllers: [AppController, TestController, ClickToggleController,
 		ScrollToController, ModalController, FormValidationController, FormAjaxController],
-	depedencies: [Test, ItemsManager],
+	dependencies: [Test, ItemsManager],
 });

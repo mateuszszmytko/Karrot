@@ -4,7 +4,7 @@ import { IConstructorAny } from "../interfaces/constructor.interface";
 import { IInjector, Injector } from "../di/injector";
 import { ControllerUtils } from "../utils/controller-utils";
 import { toCamelCase } from "../utils/to-camel-case";
-import { Settings } from "./depedencies/controller-settings";
+import { Settings } from "./dependencies/controller-settings";
 
 /* tslint:disable:no-any */
 
@@ -75,9 +75,9 @@ export class ControllersFactory {
         injector.addSingleton(HTMLElement, element as HTMLElement);
         injector.addSingleton(Settings, settings);
 
-        if (controllerMeta.depedencies) {
-            for (const depedencyCon of controllerMeta.depedencies) {
-                injector.addSingleton(depedencyCon);
+        if (controllerMeta.dependencies) {
+            for (const dependencyCon of controllerMeta.dependencies) {
+                injector.addSingleton(dependencyCon);
             }
         }
 

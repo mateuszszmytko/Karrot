@@ -10,7 +10,7 @@ function Controller(data) {
         if (data.selector) {
             Reflect.defineMetadata('Controller:selector', data.selector, con);
         }
-        Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
+        Reflect.defineMetadata('Controller:dependencies', data.dependencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
         if (data.paramTypes) {
             Reflect.defineMetadata('design:paramtypes', data.paramTypes, con);

@@ -2,83 +2,83 @@ import { IConstructor, IConstructorAny } from "../interfaces/constructor.interfa
 
 /* tslint:disable:no-any */
 
-type DepedencyCapsule = {
+type DependencyCapsule = {
     type: 'singleton' | 'transient';
-    depedencyCon: IConstructorAny;
+    dependencyCon: IConstructorAny;
 };
 
 export interface IInjector {
     parent?: IInjector;
 
-    depedencies: any[];
-    depedenciesCapsules: DepedencyCapsule[];
+    dependencies: any[];
+    dependenciesCapsules: DependencyCapsule[];
 
-    addTransient<T>(depedencyCon: IConstructor<T>): void;
-    addSingleton<T>(depedencyCon: IConstructor<T>, depedency?: T): void;
-    add<T>(depedencyCon: IConstructor<T>, type: 'singleton' | 'transient', depedency?: T): void;
+    addTransient<T>(dependencyCon: IConstructor<T>): void;
+    addSingleton<T>(dependencyCon: IConstructor<T>, dependency?: T): void;
+    add<T>(dependencyCon: IConstructor<T>, type: 'singleton' | 'transient', dependency?: T): void;
 
-    getDepedency<T>(depedencyCon: IConstructor<T>): T | undefined;
-    getDepedencys<T>(depedencyCon: IConstructor<T>): T[];
+    getDependency<T>(dependencyCon: IConstructor<T>): T | undefined;
+    getDependencys<T>(dependencyCon: IConstructor<T>): T[];
 
     resolve<T>(targetCon: IConstructor<T>): T;
 }
 
 export class Injector implements IInjector {
-    private _depedencies: any[] = [];
-    private _depedenciesCapsules: DepedencyCapsule[] = [];
+    private _dependencies: any[] = [];
+    private _dependenciesCapsules: DependencyCapsule[] = [];
 
-    public get depedencies(): any[] {
-        let depedencies = this._depedencies;
+    public get dependencies(): any[] {
+        let dependencies = this._dependencies;
 
         if (this.parent) {
-            depedencies = depedencies.concat(this.parent.depedencies);
+            dependencies = dependencies.concat(this.parent.dependencies);
         }
 
-        return depedencies;
+        return dependencies;
     }
 
-    public get depedenciesCapsules(): DepedencyCapsule[] {
-        let depedenciesCapsules = this._depedenciesCapsules;
+    public get dependenciesCapsules(): DependencyCapsule[] {
+        let dependenciesCapsules = this._dependenciesCapsules;
 
         if (this.parent) {
-            depedenciesCapsules = depedenciesCapsules.concat(this.parent.depedenciesCapsules);
+            dependenciesCapsules = dependenciesCapsules.concat(this.parent.dependenciesCapsules);
         }
 
-        return depedenciesCapsules;
+        return dependenciesCapsules;
     }
 
     constructor(public parent?: IInjector) {
 
     }
 
-    public addTransient<T>(depedencyCon: IConstructor<T>): void {
-        this.add(depedencyCon, 'transient');
+    public addTransient<T>(dependencyCon: IConstructor<T>): void {
+        this.add(dependencyCon, 'transient');
     }
 
-    public addSingleton<T>(depedencyCon: IConstructor<T>, depedency?: T): void {
-        this.add(depedencyCon, 'singleton', depedency);
+    public addSingleton<T>(dependencyCon: IConstructor<T>, dependency?: T): void {
+        this.add(dependencyCon, 'singleton', dependency);
     }
 
-    public add<T>(depedencyCon: IConstructor<T>, type: 'singleton' | 'transient' = 'singleton', depedency?: T): void {
+    public add<T>(dependencyCon: IConstructor<T>, type: 'singleton' | 'transient' = 'singleton', dependency?: T): void {
 
-        if (depedency) {
-            this._depedencies.push(depedency);
-            Reflect.defineMetadata('Injector:constructor', depedencyCon, depedency);
-            Reflect.defineMetadata('Injector:type', type, depedency);
+        if (dependency) {
+            this._dependencies.push(dependency);
+            Reflect.defineMetadata('Injector:constructor', dependencyCon, dependency);
+            Reflect.defineMetadata('Injector:type', type, dependency);
         }
 
-        this._depedenciesCapsules.push({
-            depedencyCon,
+        this._dependenciesCapsules.push({
+            dependencyCon,
             type,
         });
 
     }
 
-    public getDepedency<T>(depedencyCon: IConstructor<T>): T | undefined {
-        const depedency = this.depedencies.find(s => {
+    public getDependency<T>(dependencyCon: IConstructor<T>): T | undefined {
+        const dependency = this.dependencies.find(s => {
             const customType = Reflect.getMetadata('Injector:constructor', s) || s.constructor;
 
-            let _s = depedencyCon;
+            let _s = dependencyCon;
             while (Object.getPrototypeOf(_s)) {
                 if (_s === customType) {
                     return true;
@@ -87,73 +87,73 @@ export class Injector implements IInjector {
                 _s = Object.getPrototypeOf(_s);
             }
 
-            return customType === depedencyCon;
+            return customType === dependencyCon;
         });
 
-        return depedency as T;
+        return dependency as T;
     }
 
-    public getDepedencys<T>(depedencyCon: IConstructor<T>): T[] {
-        const depedencies = this.depedencies.filter(s => {
-            return s.constructor === depedencyCon;
+    public getDependencys<T>(dependencyCon: IConstructor<T>): T[] {
+        const dependencies = this.dependencies.filter(s => {
+            return s.constructor === dependencyCon;
         });
 
-        return depedencies;
+        return dependencies;
     }
 
     public resolve<T>(targetCon: IConstructor<T>): T {
         const requiredParams = Reflect.getMetadata('design:paramtypes', targetCon) || [];
-        const resolvedDepedencys = requiredParams.map((param: any) => this.getOrCreateDepedency(param));
+        const resolvedDependencys = requiredParams.map((param: any) => this.getOrCreateDependency(param));
 
-        const instance = this.createInstance(targetCon, resolvedDepedencys);
+        const instance = this.createInstance(targetCon, resolvedDependencys);
 
         return instance;
     }
 
     public resolveMethod(obj: any, method: string): void {
         const requiredParams = Reflect.getMetadata('design:paramtypes', obj, method) || [];
-        const resolvedDepedencys = requiredParams.map((param: any) => this.getOrCreateDepedency(param));
+        const resolvedDependencys = requiredParams.map((param: any) => this.getOrCreateDependency(param));
 
-        obj[method](...resolvedDepedencys);
+        obj[method](...resolvedDependencys);
     }
 
     public createChildInjector(): IInjector {
         return new Injector(this);
     }
 
-    private getOrCreateDepedency<T>(depedencyCon: IConstructor<T>): T | undefined {
-        if (!depedencyCon) {
+    private getOrCreateDependency<T>(dependencyCon: IConstructor<T>): T | undefined {
+        if (!dependencyCon) {
             return undefined;
         }
 
-        let instance = this.getDepedency(depedencyCon);
+        let instance = this.getDependency(dependencyCon);
         if (!instance || Reflect.getMetadata('Injector:type', instance) === 'transient') {
-            const depedencyCapsule = this.depedenciesCapsules.find(sc => sc.depedencyCon === depedencyCon);
+            const dependencyCapsule = this.dependenciesCapsules.find(sc => sc.dependencyCon === dependencyCon);
 
-            if (!depedencyCapsule) {
+            if (!dependencyCapsule) {
                 return undefined;
             }
 
-            const requiredParams = Reflect.getMetadata('design:paramtypes', depedencyCon) || [];
-            const resolvedDepedencys = requiredParams.map((param: any) => {
+            const requiredParams = Reflect.getMetadata('design:paramtypes', dependencyCon) || [];
+            const resolvedDependencys = requiredParams.map((param: any) => {
                 return param ?
-                    this.getOrCreateDepedency(param) : undefined;
+                    this.getOrCreateDependency(param) : undefined;
             });
 
-            instance = this.createInstance(depedencyCon, resolvedDepedencys);
-            this._depedencies.push(instance);
-            Reflect.defineMetadata('Injector:constructor', depedencyCon, instance);
-            Reflect.defineMetadata('Injector:type', depedencyCapsule.type, instance);
+            instance = this.createInstance(dependencyCon, resolvedDependencys);
+            this._dependencies.push(instance);
+            Reflect.defineMetadata('Injector:constructor', dependencyCon, instance);
+            Reflect.defineMetadata('Injector:type', dependencyCapsule.type, instance);
 
         }
 
         return instance;
     }
 
-    private createInstance<T>(con: IConstructor<T>, resolvedDepedencys: any[]): T {
-        const instance = new con(...resolvedDepedencys);
+    private createInstance<T>(con: IConstructor<T>, resolvedDependencys: any[]): T {
+        const instance = new con(...resolvedDependencys);
 
-        for (const resolvedParam of resolvedDepedencys) {
+        for (const resolvedParam of resolvedDependencys) {
             if (!resolvedParam) {
                 continue;
             }

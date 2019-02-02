@@ -3,112 +3,112 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Injector = /** @class */ (function () {
     function Injector(parent) {
         this.parent = parent;
-        this._depedencies = [];
-        this._depedenciesCapsules = [];
+        this._dependencies = [];
+        this._dependenciesCapsules = [];
     }
-    Object.defineProperty(Injector.prototype, "depedencies", {
+    Object.defineProperty(Injector.prototype, "dependencies", {
         get: function () {
-            var depedencies = this._depedencies;
+            var dependencies = this._dependencies;
             if (this.parent) {
-                depedencies = depedencies.concat(this.parent.depedencies);
+                dependencies = dependencies.concat(this.parent.dependencies);
             }
-            return depedencies;
+            return dependencies;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Injector.prototype, "depedenciesCapsules", {
+    Object.defineProperty(Injector.prototype, "dependenciesCapsules", {
         get: function () {
-            var depedenciesCapsules = this._depedenciesCapsules;
+            var dependenciesCapsules = this._dependenciesCapsules;
             if (this.parent) {
-                depedenciesCapsules = depedenciesCapsules.concat(this.parent.depedenciesCapsules);
+                dependenciesCapsules = dependenciesCapsules.concat(this.parent.dependenciesCapsules);
             }
-            return depedenciesCapsules;
+            return dependenciesCapsules;
         },
         enumerable: true,
         configurable: true
     });
-    Injector.prototype.addTransient = function (depedencyCon) {
-        this.add(depedencyCon, 'transient');
+    Injector.prototype.addTransient = function (dependencyCon) {
+        this.add(dependencyCon, 'transient');
     };
-    Injector.prototype.addSingleton = function (depedencyCon, depedency) {
-        this.add(depedencyCon, 'singleton', depedency);
+    Injector.prototype.addSingleton = function (dependencyCon, dependency) {
+        this.add(dependencyCon, 'singleton', dependency);
     };
-    Injector.prototype.add = function (depedencyCon, type, depedency) {
+    Injector.prototype.add = function (dependencyCon, type, dependency) {
         if (type === void 0) { type = 'singleton'; }
-        if (depedency) {
-            this._depedencies.push(depedency);
-            Reflect.defineMetadata('Injector:constructor', depedencyCon, depedency);
-            Reflect.defineMetadata('Injector:type', type, depedency);
+        if (dependency) {
+            this._dependencies.push(dependency);
+            Reflect.defineMetadata('Injector:constructor', dependencyCon, dependency);
+            Reflect.defineMetadata('Injector:type', type, dependency);
         }
-        this._depedenciesCapsules.push({
-            depedencyCon: depedencyCon,
+        this._dependenciesCapsules.push({
+            dependencyCon: dependencyCon,
             type: type,
         });
     };
-    Injector.prototype.getDepedency = function (depedencyCon) {
-        var depedency = this.depedencies.find(function (s) {
+    Injector.prototype.getDependency = function (dependencyCon) {
+        var dependency = this.dependencies.find(function (s) {
             var customType = Reflect.getMetadata('Injector:constructor', s) || s.constructor;
-            var _s = depedencyCon;
+            var _s = dependencyCon;
             while (Object.getPrototypeOf(_s)) {
                 if (_s === customType) {
                     return true;
                 }
                 _s = Object.getPrototypeOf(_s);
             }
-            return customType === depedencyCon;
+            return customType === dependencyCon;
         });
-        return depedency;
+        return dependency;
     };
-    Injector.prototype.getDepedencys = function (depedencyCon) {
-        var depedencies = this.depedencies.filter(function (s) {
-            return s.constructor === depedencyCon;
+    Injector.prototype.getDependencys = function (dependencyCon) {
+        var dependencies = this.dependencies.filter(function (s) {
+            return s.constructor === dependencyCon;
         });
-        return depedencies;
+        return dependencies;
     };
     Injector.prototype.resolve = function (targetCon) {
         var _this = this;
         var requiredParams = Reflect.getMetadata('design:paramtypes', targetCon) || [];
-        var resolvedDepedencys = requiredParams.map(function (param) { return _this.getOrCreateDepedency(param); });
-        var instance = this.createInstance(targetCon, resolvedDepedencys);
+        var resolvedDependencys = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
+        var instance = this.createInstance(targetCon, resolvedDependencys);
         return instance;
     };
     Injector.prototype.resolveMethod = function (obj, method) {
         var _this = this;
         var requiredParams = Reflect.getMetadata('design:paramtypes', obj, method) || [];
-        var resolvedDepedencys = requiredParams.map(function (param) { return _this.getOrCreateDepedency(param); });
-        obj[method].apply(obj, resolvedDepedencys);
+        var resolvedDependencys = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
+        obj[method].apply(obj, resolvedDependencys);
     };
     Injector.prototype.createChildInjector = function () {
         return new Injector(this);
     };
-    Injector.prototype.getOrCreateDepedency = function (depedencyCon) {
+    Injector.prototype.getOrCreateDependency = function (dependencyCon) {
         var _this = this;
-        if (!depedencyCon) {
+        if (!dependencyCon) {
             return undefined;
         }
-        var instance = this.getDepedency(depedencyCon);
+        var instance = this.getDependency(dependencyCon);
         if (!instance || Reflect.getMetadata('Injector:type', instance) === 'transient') {
-            var depedencyCapsule = this.depedenciesCapsules.find(function (sc) { return sc.depedencyCon === depedencyCon; });
-            if (!depedencyCapsule) {
+            var dependencyCapsule = this.dependenciesCapsules.find(function (sc) { return sc.dependencyCon === dependencyCon; });
+            if (!dependencyCapsule) {
                 return undefined;
             }
-            var requiredParams = Reflect.getMetadata('design:paramtypes', depedencyCon) || [];
-            var resolvedDepedencys = requiredParams.map(function (param) {
+            var requiredParams = Reflect.getMetadata('design:paramtypes', dependencyCon) || [];
+            var resolvedDependencys = requiredParams.map(function (param) {
                 return param ?
-                    _this.getOrCreateDepedency(param) : undefined;
+                    _this.getOrCreateDependency(param) : undefined;
             });
-            instance = this.createInstance(depedencyCon, resolvedDepedencys);
-            this._depedencies.push(instance);
-            Reflect.defineMetadata('Injector:constructor', depedencyCon, instance);
-            Reflect.defineMetadata('Injector:type', depedencyCapsule.type, instance);
+            instance = this.createInstance(dependencyCon, resolvedDependencys);
+            this._dependencies.push(instance);
+            Reflect.defineMetadata('Injector:constructor', dependencyCon, instance);
+            Reflect.defineMetadata('Injector:type', dependencyCapsule.type, instance);
         }
         return instance;
     };
-    Injector.prototype.createInstance = function (con, resolvedDepedencys) {
-        var instance = new (con.bind.apply(con, [void 0].concat(resolvedDepedencys)))();
-        for (var _i = 0, resolvedDepedencys_1 = resolvedDepedencys; _i < resolvedDepedencys_1.length; _i++) {
-            var resolvedParam = resolvedDepedencys_1[_i];
+    Injector.prototype.createInstance = function (con, resolvedDependencys) {
+        var instance = new (con.bind.apply(con, [void 0].concat(resolvedDependencys)))();
+        for (var _i = 0, resolvedDependencys_1 = resolvedDependencys; _i < resolvedDependencys_1.length; _i++) {
+            var resolvedParam = resolvedDependencys_1[_i];
             if (!resolvedParam) {
                 continue;
             }

@@ -9,21 +9,21 @@ import { Item } from "./metadata/item.decorator";
 /* tslint:disable:no-any */
 
 @Injectable()
-class TestDepedency {
+class TestDependency {
     constructor() {
         //
     }
 }
 
 @Injectable()
-class TestLocalDepedency {
+class TestLocalDependency {
     constructor() {
         //
     }
 }
 
 @Controller({
-    depedencies: [TestLocalDepedency],
+    dependencies: [TestLocalDependency],
     name: 'form',
 })
 class FormController {
@@ -32,7 +32,7 @@ class FormController {
     @Item()
     public inputs: HTMLButtonElement[];
 
-    constructor(public testDepedency: TestDepedency, _testLocalDepedency: TestLocalDepedency) {
+    constructor(public testDependency: TestDependency, _testLocalDependency: TestLocalDependency) {
     }
 
     public onInit(): void {
@@ -42,7 +42,7 @@ class FormController {
 }
 
 @Controller({
-    depedencies: [TestLocalDepedency],
+    dependencies: [TestLocalDependency],
     name: 'myApp',
 })
 class AppController {
@@ -52,10 +52,10 @@ class AppController {
     @Item('my-form')
     public asdForm: FormController;
 
-    constructor(public testDepedency: TestDepedency,
-                testLocalDepedency: TestLocalDepedency,
+    constructor(public testDependency: TestDependency,
+                testLocalDependency: TestLocalDependency,
                 public element: HTMLElement) {
-        console.log(testLocalDepedency);
+        console.log(testLocalDependency);
     }
 
     public onInit(): void {
@@ -100,7 +100,7 @@ describe('Karrot main object', () => {
 
         Karrot({
             controllers: [FormController, AppController],
-            depedencies: [TestDepedency],
+            dependencies: [TestDependency],
         });
     });
 

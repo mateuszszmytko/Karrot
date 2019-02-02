@@ -15,7 +15,7 @@ export function Controller<T>(data: IControllerArgs): (con: new (...args: any[])
             Reflect.defineMetadata('Controller:selector', data.selector, con);
         }
 
-        Reflect.defineMetadata('Controller:depedencies', data.depedencies, con);
+        Reflect.defineMetadata('Controller:dependencies', data.dependencies, con);
         Reflect.defineMetadata('Controller:settings', data.settings || [], con);
 
         if (data.paramTypes) {

@@ -1,7 +1,7 @@
 import { DOM, FormValidationController, InputValidationCapsule } from '@karrot/common';
 import { Controller, Hooks, Item, Settings, Inject } from '@karrot/core';
 
-import { Test } from '../depedencies/test';
+import { Test } from '../dependencies/test';
 import { TestController } from './test.controller';
 
 @Controller({

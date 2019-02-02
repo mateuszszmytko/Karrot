@@ -2,7 +2,7 @@ import { ControllersFactory } from "./controller";
 import { ControllersResolver } from "./controller/controllers-resolver";
 import { ControllersStorage } from "./controller/controllers-storage";
 import { ItemsParser } from "./controller/parse/items-parser";
-import { Hooks } from "./depedencies";
+import { Hooks } from "./dependencies";
 import { IInjector, Injector } from "./di/injector";
 import { IKarrotArgs } from "./interfaces/karrot-args.interface";
 
@@ -27,9 +27,9 @@ export class KarrotImp {
     }
 
     public onInit(): void {
-        if (this.args.depedencies) {
-            for (const depedency of this.args.depedencies) {
-                this._rootInjector.add(depedency, 'singleton');
+        if (this.args.dependencies) {
+            for (const dependency of this.args.dependencies) {
+                this._rootInjector.add(dependency, 'singleton');
             }
         }
 

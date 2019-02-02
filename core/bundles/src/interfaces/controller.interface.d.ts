@@ -23,7 +23,7 @@ export interface IControllerMeta {
         type: string;
         index: number;
     }>;
-    depedencies?: IConstructorAny[];
+    dependencies?: IConstructorAny[];
 }
 export interface IControllerDev extends IController {
     _controllerId: string;
@@ -37,7 +37,7 @@ export interface IControllerDev extends IController {
 export interface IControllerArgs {
     name: string;
     selector?: string;
-    depedencies?: IConstructorAny[];
+    dependencies?: IConstructorAny[];
     paramTypes?: IConstructorAny[];
     settings?: {
         [key: string]: any;

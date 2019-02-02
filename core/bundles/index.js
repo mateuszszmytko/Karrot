@@ -9,5 +9,5 @@ var injectable_1 = require("./src/di/injectable");
 exports.Injectable = injectable_1.Injectable;
 __export(require("./src/metadata"));
 __export(require("./src/controller"));
-__export(require("./src/depedencies"));
+__export(require("./src/dependencies"));
 //# sourceMappingURL=index.js.map

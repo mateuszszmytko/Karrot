@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var injector_1 = require("../di/injector");
 var controller_utils_1 = require("../utils/controller-utils");
 var to_camel_case_1 = require("../utils/to-camel-case");
-var controller_settings_1 = require("./depedencies/controller-settings");
+var controller_settings_1 = require("./dependencies/controller-settings");
 /* tslint:disable:no-any */
 var ControllersFactory = /** @class */ (function () {
     function ControllersFactory(_injector) {
@@ -56,10 +56,10 @@ var ControllersFactory = /** @class */ (function () {
         var injector = new injector_1.Injector(this._injector);
         injector.addSingleton(HTMLElement, element);
         injector.addSingleton(controller_settings_1.Settings, settings);
-        if (controllerMeta.depedencies) {
-            for (var _i = 0, _a = controllerMeta.depedencies; _i < _a.length; _i++) {
-                var depedencyCon = _a[_i];
-                injector.addSingleton(depedencyCon);
+        if (controllerMeta.dependencies) {
+            for (var _i = 0, _a = controllerMeta.dependencies; _i < _a.length; _i++) {
+                var dependencyCon = _a[_i];
+                injector.addSingleton(dependencyCon);
             }
         }
         var controller = injector.resolve(constructor);
