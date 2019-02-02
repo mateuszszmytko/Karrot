@@ -18,7 +18,7 @@ export interface IInjector {
     add<T>(dependencyCon: IConstructor<T>, type: 'singleton' | 'transient', dependency?: T): void;
 
     getDependency<T>(dependencyCon: IConstructor<T>): T | undefined;
-    getDependencys<T>(dependencyCon: IConstructor<T>): T[];
+    getDependencies<T>(dependencyCon: IConstructor<T>): T[];
 
     resolve<T>(targetCon: IConstructor<T>): T;
 }
@@ -93,7 +93,7 @@ export class Injector implements IInjector {
         return dependency as T;
     }
 
-    public getDependencys<T>(dependencyCon: IConstructor<T>): T[] {
+    public getDependencies<T>(dependencyCon: IConstructor<T>): T[] {
         const dependencies = this.dependencies.filter(s => {
             return s.constructor === dependencyCon;
         });
@@ -103,18 +103,18 @@ export class Injector implements IInjector {
 
     public resolve<T>(targetCon: IConstructor<T>): T {
         const requiredParams = Reflect.getMetadata('design:paramtypes', targetCon) || [];
-        const resolvedDependencys = requiredParams.map((param: any) => this.getOrCreateDependency(param));
+        const resolvedDependencies = requiredParams.map((param: any) => this.getOrCreateDependency(param));
 
-        const instance = this.createInstance(targetCon, resolvedDependencys);
+        const instance = this.createInstance(targetCon, resolvedDependencies);
 
         return instance;
     }
 
     public resolveMethod(obj: any, method: string): void {
         const requiredParams = Reflect.getMetadata('design:paramtypes', obj, method) || [];
-        const resolvedDependencys = requiredParams.map((param: any) => this.getOrCreateDependency(param));
+        const resolvedDependencies = requiredParams.map((param: any) => this.getOrCreateDependency(param));
 
-        obj[method](...resolvedDependencys);
+        obj[method](...resolvedDependencies);
     }
 
     public createChildInjector(): IInjector {
@@ -135,12 +135,12 @@ export class Injector implements IInjector {
             }
 
             const requiredParams = Reflect.getMetadata('design:paramtypes', dependencyCon) || [];
-            const resolvedDependencys = requiredParams.map((param: any) => {
+            const resolvedDependencies = requiredParams.map((param: any) => {
                 return param ?
                     this.getOrCreateDependency(param) : undefined;
             });
 
-            instance = this.createInstance(dependencyCon, resolvedDependencys);
+            instance = this.createInstance(dependencyCon, resolvedDependencies);
             this._dependencies.push(instance);
             Reflect.defineMetadata('Injector:constructor', dependencyCon, instance);
             Reflect.defineMetadata('Injector:type', dependencyCapsule.type, instance);
@@ -150,10 +150,10 @@ export class Injector implements IInjector {
         return instance;
     }
 
-    private createInstance<T>(con: IConstructor<T>, resolvedDependencys: any[]): T {
-        const instance = new con(...resolvedDependencys);
+    private createInstance<T>(con: IConstructor<T>, resolvedDependencies: any[]): T {
+        const instance = new con(...resolvedDependencies);
 
-        for (const resolvedParam of resolvedDependencys) {
+        for (const resolvedParam of resolvedDependencies) {
             if (!resolvedParam) {
                 continue;
             }

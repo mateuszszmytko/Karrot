@@ -79,9 +79,9 @@ describe('Injector', () => {
     });
 
     it('transients objects should be different instances', () => {
-        const testDependencys = injector.getDependencys(TestDependency);
+        const testDependencies = injector.getDependencies(TestDependency);
 
-        expect(testDependencys.length).toBeGreaterThanOrEqual(2);
-        expect(testDependencys[0]).not.toBe(testDependencys[1]);
+        expect(testDependencies.length).toBeGreaterThanOrEqual(2);
+        expect(testDependencies[0]).not.toBe(testDependencies[1]);
     });
 });
