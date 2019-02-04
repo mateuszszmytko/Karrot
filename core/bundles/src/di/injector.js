@@ -60,7 +60,7 @@ var Injector = /** @class */ (function () {
         });
         return dependency;
     };
-    Injector.prototype.getDependencys = function (dependencyCon) {
+    Injector.prototype.getDependencies = function (dependencyCon) {
         var dependencies = this.dependencies.filter(function (s) {
             return s.constructor === dependencyCon;
         });
@@ -69,15 +69,15 @@ var Injector = /** @class */ (function () {
     Injector.prototype.resolve = function (targetCon) {
         var _this = this;
         var requiredParams = Reflect.getMetadata('design:paramtypes', targetCon) || [];
-        var resolvedDependencys = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
-        var instance = this.createInstance(targetCon, resolvedDependencys);
+        var resolvedDependencies = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
+        var instance = this.createInstance(targetCon, resolvedDependencies);
         return instance;
     };
     Injector.prototype.resolveMethod = function (obj, method) {
         var _this = this;
         var requiredParams = Reflect.getMetadata('design:paramtypes', obj, method) || [];
-        var resolvedDependencys = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
-        obj[method].apply(obj, resolvedDependencys);
+        var resolvedDependencies = requiredParams.map(function (param) { return _this.getOrCreateDependency(param); });
+        obj[method].apply(obj, resolvedDependencies);
     };
     Injector.prototype.createChildInjector = function () {
         return new Injector(this);
@@ -94,21 +94,21 @@ var Injector = /** @class */ (function () {
                 return undefined;
             }
             var requiredParams = Reflect.getMetadata('design:paramtypes', dependencyCon) || [];
-            var resolvedDependencys = requiredParams.map(function (param) {
+            var resolvedDependencies = requiredParams.map(function (param) {
                 return param ?
                     _this.getOrCreateDependency(param) : undefined;
             });
-            instance = this.createInstance(dependencyCon, resolvedDependencys);
+            instance = this.createInstance(dependencyCon, resolvedDependencies);
             this._dependencies.push(instance);
             Reflect.defineMetadata('Injector:constructor', dependencyCon, instance);
             Reflect.defineMetadata('Injector:type', dependencyCapsule.type, instance);
         }
         return instance;
     };
-    Injector.prototype.createInstance = function (con, resolvedDependencys) {
-        var instance = new (con.bind.apply(con, [void 0].concat(resolvedDependencys)))();
-        for (var _i = 0, resolvedDependencys_1 = resolvedDependencys; _i < resolvedDependencys_1.length; _i++) {
-            var resolvedParam = resolvedDependencys_1[_i];
+    Injector.prototype.createInstance = function (con, resolvedDependencies) {
+        var instance = new (con.bind.apply(con, [void 0].concat(resolvedDependencies)))();
+        for (var _i = 0, resolvedDependencies_1 = resolvedDependencies; _i < resolvedDependencies_1.length; _i++) {
+            var resolvedParam = resolvedDependencies_1[_i];
             if (!resolvedParam) {
                 continue;
             }
