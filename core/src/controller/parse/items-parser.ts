@@ -57,7 +57,7 @@ export class ItemsParser {
             const controllersByName = this.controllersStorage.controllers.filter(c => {
                 const meta = ControllerUtils.getControllerMeta(c);
 
-                return meta.name === name;
+                return meta.name === item.name;
             });
 
             if (controllersByName.length === 0) {

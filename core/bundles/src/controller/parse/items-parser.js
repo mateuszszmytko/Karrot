@@ -43,7 +43,7 @@ var ItemsParser = /** @class */ (function () {
         if (type === Array) {
             var controllersByName = this.controllersStorage.controllers.filter(function (c) {
                 var meta = controller_utils_1.ControllerUtils.getControllerMeta(c);
-                return meta.name === name;
+                return meta.name === item.name;
             });
             if (controllersByName.length === 0) {
                 return elements;
