@@ -1,4 +1,4 @@
-import { Hooks, Settings } from '@karrot/core';
+import { Hooks, ISettings } from '@karrot/core';
 declare type ModalSettings = {
     positionX: 'middle' | 'left' | 'top';
     positionY: 'middle' | 'top' | 'bottom';
@@ -6,7 +6,7 @@ declare type ModalSettings = {
     closeOnConfirm: boolean;
     closeOnCancel: boolean;
     closeOnOutsideClick: boolean;
-    modalId: string;
+    modalId?: string;
 };
 declare enum ModalState {
     DuringOpening = 0,
@@ -15,9 +15,9 @@ declare enum ModalState {
     Closed = 3
 }
 export declare class ModalController {
-    modal: HTMLElement;
-    protected hooks: Hooks;
-    protected settings: Settings<ModalSettings>;
+    element: HTMLElement;
+    hooks: Hooks;
+    settings: ModalSettings;
     links: HTMLElement[];
     wrapper: HTMLElement;
     overlay: HTMLElement;
@@ -26,7 +26,7 @@ export declare class ModalController {
     exits: HTMLElement[];
     protected modalState: ModalState;
     protected modalId: string;
-    constructor(modal: HTMLElement, hooks: Hooks, settings: Settings<ModalSettings>);
+    constructor(element: HTMLElement, hooks: Hooks, settings: ISettings);
     kOnInit(): void;
     protected build(): void;
     protected resolveModalId(): void;

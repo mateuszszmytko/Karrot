@@ -4,14 +4,13 @@
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"sourceMap": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
 		"lib": [
 			"es2015",
 			"dom"
 		],
-		"noImplicitAny": false,
-		"suppressImplicitAnyIndexErrors": false,
+		"noImplicitAny": true,
+		"suppressImplicitAnyIndexErrors": true,
+        "strictNullChecks": true,
 		"baseUrl": ".",
 		"paths": {
 			"@karrot/*": [

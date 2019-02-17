@@ -1,14 +1,12 @@
 {
   "name": "@karrot/common",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "",
   "main": "bundles/index.js",
   "peerDependencies": {
-    "@karrot/core": "0.4.0"
+    "@karrot/core": "0.5.0"
   },
   "dependencies": {
-    "@types/reflect-metadata": "^0.1.0",
-    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {},
   "scripts": {

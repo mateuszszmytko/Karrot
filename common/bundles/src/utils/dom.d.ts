@@ -1,4 +1,4 @@
-export declare function DOM(...elements: Array<HTMLElement | HTMLElement[]>): DOMManager;
+export declare function DOM(...elements: Array<HTMLElement | HTMLElement[] | undefined>): DOMManager;
 declare type TDOMClass<T> = {
     add: (...classNames: string[]) => T;
     remove: (...classNames: string[]) => T;
@@ -28,6 +28,6 @@ declare class DOMManager {
     readonly state: TDOMState<DOMManager>;
     readonly event: TDOMEvent<DOMManager>;
     readonly attribute: TDOMAttribute<DOMManager>;
-    constructor(elements: Array<HTMLElement | HTMLElement[]>);
+    constructor(elements: Array<HTMLElement | HTMLElement[] | undefined>);
 }
 export {};

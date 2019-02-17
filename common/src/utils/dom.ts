@@ -1,4 +1,4 @@
-export function DOM(...elements: Array<HTMLElement | HTMLElement[]>): DOMManager {
+export function DOM(...elements: Array<HTMLElement | HTMLElement[] | undefined>): DOMManager {
     return new DOMManager(elements);
 }
 
@@ -143,7 +143,7 @@ class DOMManager {
         return this._attribute;
     }
 
-    constructor(elements: Array<HTMLElement | HTMLElement[]> ) {
+    constructor(elements: Array<HTMLElement | HTMLElement[] | undefined> ) {
         this._elements = [];
         for (const element of elements) {
             if (!element) {

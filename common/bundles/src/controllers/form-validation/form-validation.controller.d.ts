@@ -1,7 +1,8 @@
-import { Hooks, Settings } from '@karrot/core';
+import { Hooks, ISettings } from '@karrot/core';
 export interface IFormActions {
-    validationError(capsule: InputValidationCapsule): void;
-    validationSuccess(capsule: InputValidationCapsule): void;
+    error(capsule: InputValidationCapsule): void;
+    success(capsule: InputValidationCapsule): void;
+    result(isValid: boolean, capsules: InputValidationCapsule[]): void;
 }
 export interface IFormFilters {
     inputValidation(capsule: InputValidationCapsule): InputValidationCapsule;
@@ -12,16 +13,15 @@ export declare type InputValidationCapsule = {
     message: string;
 };
 declare type FormSettings = {
-    validation: boolean;
     validationType: 'mixed' | 'keyup' | 'submit';
     defaultValidationEvents: boolean;
 };
 export declare class FormValidationController {
-    private form;
-    hooks: Hooks<IFormActions, IFormFilters>;
-    settings: Settings<FormSettings>;
+    element: HTMLElement;
+    hooks: Hooks;
     inputs: HTMLInputElement[];
-    constructor(form: HTMLFormElement, hooks: Hooks<IFormActions, IFormFilters>, settings: Settings<FormSettings>);
+    settings: FormSettings;
+    constructor(element: HTMLElement, hooks: Hooks, settings: ISettings);
     kOnInit(): void;
     protected validityCheck(e: Event, useInput?: HTMLInputElement): Promise<void>;
     protected onValidationError(capsule: InputValidationCapsule): void;

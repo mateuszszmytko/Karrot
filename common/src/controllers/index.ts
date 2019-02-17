@@ -1,4 +1,4 @@
-export { ModalController } from './modal/modal.controller';
-export { FormAjaxController } from './form-ajax/form-ajax.controller';
-export { FormValidationController, InputValidationCapsule } from './form-validation/form-validation.controller';
-export { ScrollToController } from './scroll-to/scroll-to.controller';
+export { Modal } from './modal/modal';
+export { FormAjax } from './form-ajax/form-ajax';
+export { FormValidation, InputValidationCapsule } from './form-validation/form-validation';
+export { ScrollTo } from './scroll-to/scroll-to';

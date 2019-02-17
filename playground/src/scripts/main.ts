@@ -1,19 +1,34 @@
-import {  Karrot } from "@karrot/core";
+import {  Karrot, Hooks } from "@karrot/core";
 
-import { FormAjaxController,
-	FormValidationController,
-	ItemsManager,
-	ModalController,
-	ScrollToController } from '@karrot/common';
+import { FormAjax,
+	FormValidation,
+	Modal,
+	ScrollTo } from '@karrot/common';
 
-import { AppController } from "./controllers/app.controller";
-import { TestController } from "./controllers/test.controller";
-import { Test } from "./dependencies/test";
+import { App } from "./controllers/app.controller";
+import { ClickToggle } from "./controllers/click-toggle.controller";
 
-import { ClickToggleController } from "./controllers/click-toggle.controller";
+Karrot.init();
 
-Karrot({
-	controllers: [AppController, TestController, ClickToggleController,
-		ScrollToController, ModalController, FormValidationController, FormAjaxController],
-	dependencies: [Test, ItemsManager],
+Karrot.attach('form', FormAjax, FormValidation, FormAjax);
+Karrot.attach('modal', Modal);
+Karrot.attach('link', ScrollTo);
+Karrot.attach('app', App);
+
+Karrot.attach('form', (element: HTMLElement, hooks: Hooks) => {
+    setTimeout(() => {
+        hooks.doAction('form.test');
+    }, 5000);
+
+    hooks.addAction('form.test', () => {
+        console.log('test');
+    });
+
+    return 'asd';
 });
+
+const form = Karrot.get('form');
+
+if (form) {
+    console.log(form);
+}

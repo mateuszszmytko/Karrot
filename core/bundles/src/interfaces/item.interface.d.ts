@@ -1,11 +1,11 @@
-import { IConstructorAny } from "./constructor.interface";
-export declare type TSearchStrategy = 'all' | 'parents' | 'children' | 'siblings';
-export declare type TItemCapsule = {
-    type?: IConstructorAny;
-    searchStrategy: TSearchStrategy;
-};
+import { Controller } from "../controller";
+import { IFunctionAny } from "./constructor.interface";
 export declare type TItem = {
-    propertyKey: string;
+    names: string[];
+    element: HTMLElement;
+    attached: Array<Controller | IFunctionAny>;
+};
+export declare type TItemContainer = {
     name: string;
-    capsule: TItemCapsule;
+    items: TItem[];
 };

@@ -1,4 +1,4 @@
-import { Hooks, Settings } from '@karrot/core';
+import { Hooks, ISettings } from '@karrot/core';
 export interface IFormActions {
     beforeSending(): void;
     sent(response: Response, formOutput: HTMLElement): void;
@@ -14,14 +14,14 @@ declare type FormSettings = {
     clearAfterSending: boolean;
 };
 export declare class FormAjaxController {
-    private form;
-    hooks: Hooks<IFormActions, IFormFilters>;
-    settings: Settings<FormSettings>;
-    formOutput: HTMLElement;
-    submit: HTMLInputElement;
+    element: HTMLFormElement;
+    hooks: Hooks;
+    settings: FormSettings;
+    formOutput: HTMLElement | undefined;
+    submit: HTMLElement | undefined;
     inputs: HTMLInputElement[];
     private status;
-    constructor(form: HTMLFormElement, hooks: Hooks<IFormActions, IFormFilters>, settings: Settings<FormSettings>);
+    constructor(element: HTMLFormElement, hooks: Hooks, settings: ISettings);
     kOnInit(): void;
     protected onSubmit(e: Event): Promise<void>;
     protected formBeforeSending(): void;

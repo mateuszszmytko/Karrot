@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -53,16 +44,24 @@ var FormStatus;
     FormStatus[FormStatus["Sent"] = 2] = "Sent";
 })(FormStatus || (FormStatus = {}));
 var FormAjaxController = /** @class */ (function () {
-    function FormAjaxController(form, hooks, settings) {
-        this.form = form;
+    function FormAjaxController(element, hooks, settings) {
+        this.element = element;
         this.hooks = hooks;
-        this.settings = settings;
+        this.settings = {
+            clearAfterSending: true,
+            defaultSentEvents: true,
+            jsonResponseData: false,
+            method: 'POST',
+        };
+        this.formOutput = core_1.Karrot.get('formOutput', HTMLElement, this.element.parentElement);
+        this.submit = core_1.Karrot.get('submit', HTMLElement, this.element);
         this.status = FormStatus.None;
+        this.settings = Object.assign({}, this.settings, settings);
     }
     FormAjaxController.prototype.kOnInit = function () {
         var _this = this;
-        this.inputs = Array.from(this.form.querySelectorAll('input'));
-        utils_1.DOM(this.form)
+        this.inputs = Array.from(this.element.querySelectorAll('input'));
+        utils_1.DOM(this.element)
             .class.add('k-form')
             .event.add('submit', function (e) {
             _this.onSubmit(e);
@@ -71,14 +70,14 @@ var FormAjaxController = /** @class */ (function () {
             .class.add('k-form__output');
         utils_1.DOM(this.submit)
             .class.add('k-form__submit');
-        if (this.settings.get('defaultSentEvents')) {
+        if (this.settings.defaultSentEvents) {
             utils_1.DOM(this.submit)
                 .class.add('k-form__submit--circle');
         }
-        this.hooks.addAction('beforeSending', function () {
+        this.hooks.addAction('formAjax.beforeSending', function () {
             _this.formBeforeSending();
         });
-        this.hooks.addAction('sent', function (response, formOutput) {
+        this.hooks.addAction('formAjax.sent', function (response, formOutput) {
             _this.formSent(response, formOutput);
         });
     };
@@ -88,22 +87,22 @@ var FormAjaxController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.form.checkValidity()) {
+                        if (!this.element.checkValidity()) {
                             return [2 /*return*/];
                         }
                         e.preventDefault();
                         if (this.status === FormStatus.Sending) {
                             return [2 /*return*/];
                         }
-                        action = this.form.action;
-                        formData = new FormData(this.form);
-                        return [4 /*yield*/, this.hooks.applyFilter(formData, 'applyFormData')];
+                        action = this.element.action;
+                        formData = new FormData(this.element);
+                        return [4 /*yield*/, this.hooks.applyFilter(formData, 'formAjax.formData')];
                     case 1:
                         formData = _a.sent();
-                        return [4 /*yield*/, this.hooks.doAction('beforeSending', formData, action)];
+                        return [4 /*yield*/, this.hooks.doAction('formAjax.beforeSending', formData, action)];
                     case 2:
                         _a.sent();
-                        if (this.settings.get('method') === 'GET') {
+                        if (this.settings.method === 'GET') {
                             formDataObject_1 = {};
                             formData.forEach(function (value, key) {
                                 if (!value) {
@@ -120,19 +119,19 @@ var FormAjaxController = /** @class */ (function () {
                     case 3:
                         _a.trys.push([3, 5, , 7]);
                         return [4 /*yield*/, fetch(action, {
-                                body: this.settings.get('method') === 'POST' ? formData : undefined,
-                                method: this.settings.get('method') || 'POST',
+                                body: this.settings.method === 'POST' ? formData : undefined,
+                                method: this.settings.method || 'POST',
                             })];
                     case 4:
                         response = _a.sent();
                         return [3 /*break*/, 7];
                     case 5:
                         error_1 = _a.sent();
-                        return [4 /*yield*/, this.hooks.doAction('error', error_1)];
+                        return [4 /*yield*/, this.hooks.doAction('formAjax.error', error_1)];
                     case 6:
                         _a.sent();
                         return [3 /*break*/, 7];
-                    case 7: return [4 /*yield*/, this.hooks.doAction('sent', response, this.formOutput)];
+                    case 7: return [4 /*yield*/, this.hooks.doAction('formAjax.sent', response, this.formOutput)];
                     case 8:
                         _a.sent();
                         return [2 /*return*/];
@@ -142,7 +141,7 @@ var FormAjaxController = /** @class */ (function () {
     };
     FormAjaxController.prototype.formBeforeSending = function () {
         this.status = FormStatus.Sending;
-        utils_1.DOM(this.form, this.submit, this.formOutput)
+        utils_1.DOM(this.element, this.submit, this.formOutput)
             .state.set('active');
     };
     FormAjaxController.prototype.formSent = function (response, formOutput) {
@@ -152,10 +151,10 @@ var FormAjaxController = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         this.status = FormStatus.Sent;
-                        utils_1.DOM(this.form, this.submit, this.formOutput)
+                        utils_1.DOM(this.element, this.submit, this.formOutput)
                             .state.set('active', false)
                             .state.set(Math.round(response.status / 100) === 2 ? 'successful' : 'error');
-                        if (this.settings.get('clearAfterSending')) {
+                        if (this.settings.clearAfterSending) {
                             for (_i = 0, _a = this.inputs; _i < _a.length; _i++) {
                                 input = _a[_i];
                                 if (input.type === 'checkbox' || input.type === 'radio') {
@@ -166,10 +165,10 @@ var FormAjaxController = /** @class */ (function () {
                                 }
                             }
                         }
-                        if (!this.settings.get('defaultSentEvents')) {
+                        if (!this.settings.defaultSentEvents) {
                             return [2 /*return*/];
                         }
-                        if (!this.settings.get('jsonResponseData')) return [3 /*break*/, 2];
+                        if (!this.settings.jsonResponseData) return [3 /*break*/, 2];
                         return [4 /*yield*/, response.json()];
                     case 1:
                         reponseObject = _b.sent();
@@ -187,30 +186,6 @@ var FormAjaxController = /** @class */ (function () {
             });
         });
     };
-    __decorate([
-        core_1.Item('formOutput', 'siblings'),
-        __metadata("design:type", HTMLElement)
-    ], FormAjaxController.prototype, "formOutput", void 0);
-    __decorate([
-        core_1.Item(),
-        __metadata("design:type", HTMLInputElement)
-    ], FormAjaxController.prototype, "submit", void 0);
-    FormAjaxController = __decorate([
-        core_1.Controller({
-            name: 'formAjax',
-            selector: '.jsFormAjax',
-            settings: {
-                clearAfterSending: true,
-                defaultSentEvents: true,
-                defaultValidationEvents: true,
-                jsonResponseData: false,
-                method: 'POST',
-            },
-        }),
-        __metadata("design:paramtypes", [HTMLFormElement,
-            core_1.Hooks,
-            core_1.Settings])
-    ], FormAjaxController);
     return FormAjaxController;
 }());
 exports.FormAjaxController = FormAjaxController;

@@ -1,38 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var controller_lifecycle_1 = require("./controller-lifecycle");
-var controller_utils_1 = require("../utils/controller-utils");
+var data_parser_1 = require("../utils/data-parser");
+var hooks_1 = require("./hooks");
 // tslint:disable-next-line
-function Controller(data) {
-    // tslint:disable-next-line
-    return function (con) {
-        Reflect.defineMetadata('Controller:name', data.name, con);
-        if (data.selector) {
-            Reflect.defineMetadata('Controller:selector', data.selector, con);
-        }
-        Reflect.defineMetadata('Controller:dependencies', data.dependencies, con);
-        Reflect.defineMetadata('Controller:settings', data.settings || [], con);
-        if (data.paramTypes) {
-            Reflect.defineMetadata('design:paramtypes', data.paramTypes, con);
-        }
-        // tslint:disable-next-line
-        con.prototype.__karrotConstructor = function () {
-            this._controllerId = controller_utils_1.ControllerUtils.getControllerId();
-            this._controllerElement.setAttribute(this._controllerId, '');
-            this._lifecycle = new controller_lifecycle_1.ControllerLifecycle(this);
-        };
-        // tslint:disable-next-line
-        con.prototype.__karrotParse = function (itemsParser) {
-            this._lifecycle.execute('kBeforeParse');
-            itemsParser.parse(this);
-            this._lifecycle.execute('kAfterParse');
-        };
-        // tslint:disable-next-line
-        con.prototype.__karrotInit = function () {
-            this._lifecycle.execute('kBeforeInit');
-            this._lifecycle.execute('kOnInit');
-        };
+var KarrotController = /** @class */ (function () {
+    function KarrotController(element) {
+        this.element = element;
+        this.hooks = new hooks_1.Hooks();
+        this._settings = {};
+        this.parseSettings();
+    }
+    Object.defineProperty(KarrotController.prototype, "settings", {
+        get: function () {
+            return this._settings;
+        },
+        set: function (val) {
+            this._settings = Object.assign(this._settings, val);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    KarrotController.prototype.addAction = function (actionName, action, index) {
+        if (index === void 0) { index = 100; }
+        this.hooks.addAction(actionName, action, index);
     };
-}
-exports.Controller = Controller;
+    KarrotController.prototype.addFilter = function (filterName, filter, index) {
+        if (index === void 0) { index = 100; }
+        this.hooks.addFilter(filterName, filter, index);
+    };
+    KarrotController.prototype.parseSettings = function () {
+        this.settings = data_parser_1.DataParser.parse(this.element);
+    };
+    return KarrotController;
+}());
+exports.KarrotController = KarrotController;
+/*
+1. settings (from element) done
+2. hooks (with proteced methods)
+*/
 //# sourceMappingURL=controller.js.map

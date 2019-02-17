@@ -1,24 +1,18 @@
-import { Controller, Hooks, Settings } from '@karrot/core';
+import {  Karrot, Hooks, ISettings } from '@karrot/core';
 
-import { ItemsManager } from '@karrot/common';
-
-@Controller({
-    name: 'click-toggle',
-})
-export class ClickToggleController {
+export class ClickToggle {
     public targets: HTMLElement[] = [];
 
-    constructor(private element: HTMLElement,
-                public hooks: Hooks, public settings: Settings, private itemsManager: ItemsManager) {
+    constructor(public element: HTMLElement, public hooks: Hooks, public settings: ISettings) {
     }
 
     public async kOnInit(): Promise<void> {
 
-        for (const target of this.settings.get('targets')) {
-            const targetEl = this.itemsManager.getElement(target);
+        for (const target of this.settings.targets) {
+            const targets = Karrot.getMany(target, HTMLElement);
 
-            if (targetEl) {
-                this.targets.push(targetEl);
+            if (targets) {
+                this.targets.push(...targets);
             }
         }
 

@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 /* tslint:disable */
 declare const __karma__: any;
 declare const require: any;

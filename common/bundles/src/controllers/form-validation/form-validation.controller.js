@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -44,18 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@karrot/core");
 var utils_1 = require("../../utils");
 var FormValidationController = /** @class */ (function () {
-    function FormValidationController(form, hooks, settings) {
-        this.form = form;
+    function FormValidationController(element, hooks, settings) {
+        this.element = element;
         this.hooks = hooks;
-        this.settings = settings;
+        this.settings = {
+            defaultValidationEvents: true,
+            validationType: 'mixed',
+        };
+        this.settings = Object.assign({}, this.settings, settings);
     }
     FormValidationController.prototype.kOnInit = function () {
         var _this = this;
-        this.inputs = Array.from(this.form.querySelectorAll('input'));
-        utils_1.DOM(this.form)
+        this.inputs = Array.from(this.element.querySelectorAll('input'));
+        utils_1.DOM(this.element)
             .class.add('k-form-validation')
             .attribute.set('novalidate')
             .event.add('submit', function (e) {
@@ -68,18 +62,18 @@ var FormValidationController = /** @class */ (function () {
             .event.add('change', function (e, element) {
             _this.validityCheck(e, element);
         });
-        if (this.settings.get('defaultValidationEvents')) {
-            this.hooks.addAction('validationError', function (capsule) {
+        if (this.settings.defaultValidationEvents) {
+            this.hooks.addAction('formValidation.error', function (capsule) {
                 _this.onValidationError(capsule);
             });
-            this.hooks.addAction('validationSuccess', function (capsule) {
+            this.hooks.addAction('formValidation.success', function (capsule) {
                 _this.onValidationError(capsule);
             });
         }
     };
     FormValidationController.prototype.validityCheck = function (e, useInput) {
         return __awaiter(this, void 0, void 0, function () {
-            var inputs, isValid, _i, inputs_1, input, checkValidty, message, capsule;
+            var inputs, isValid, capsules, _i, inputs_1, input, checkValidty, message, capsule;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -90,16 +84,17 @@ var FormValidationController = /** @class */ (function () {
                             }
                             inputs = [useInput];
                         }
-                        if ((e.type === 'keyup' || e.type === 'change') && this.settings.get('validationType') === 'submit') {
+                        if ((e.type === 'keyup' || e.type === 'change') && this.settings.validationType === 'submit') {
                             return [2 /*return*/];
                         }
                         if ((e.type === 'keyup' || e.type === 'change') &&
-                            this.settings.get('validationType') === 'mixed' &&
+                            this.settings.validationType === 'mixed' &&
                             useInput &&
                             !utils_1.DOM(useInput).state.is('dirty')) {
                             return [2 /*return*/];
                         }
                         isValid = true;
+                        capsules = [];
                         _i = 0, inputs_1 = inputs;
                         _a.label = 1;
                     case 1:
@@ -115,27 +110,30 @@ var FormValidationController = /** @class */ (function () {
                             isValid: checkValidty,
                             message: message,
                         };
-                        return [4 /*yield*/, this.hooks.applyFilter(capsule, 'inputValidation')];
+                        return [4 /*yield*/, this.hooks.applyFilter(capsule, 'formValidation.inputValidation')];
                     case 3:
                         capsule = _a.sent();
+                        capsules.push(capsule);
                         if (!capsule.isValid) {
                             input.setCustomValidity(capsule.message);
                         }
                         utils_1.DOM(input).state.set('dirty');
                         if (!!capsule.isValid) return [3 /*break*/, 5];
                         isValid = false;
-                        return [4 /*yield*/, this.hooks.doAction('validationError', capsule)];
+                        return [4 /*yield*/, this.hooks.doAction('formValidation.error', capsule)];
                     case 4:
                         _a.sent();
                         return [3 /*break*/, 7];
-                    case 5: return [4 /*yield*/, this.hooks.doAction('validationSuccess', capsule)];
+                    case 5: return [4 /*yield*/, this.hooks.doAction('formValidation.success', capsule)];
                     case 6:
                         _a.sent();
                         _a.label = 7;
                     case 7:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 8:
+                    case 8: return [4 /*yield*/, this.hooks.doAction('formValidation.result', isValid, capsules)];
+                    case 9:
+                        _a.sent();
                         if (!isValid) {
                             e.preventDefault();
                         }
@@ -186,19 +184,6 @@ var FormValidationController = /** @class */ (function () {
             });
         });
     };
-    FormValidationController = __decorate([
-        core_1.Controller({
-            name: 'formValidation',
-            selector: '.jsFormValidation',
-            settings: {
-                defaultValidationEvents: true,
-                validationType: 'mixed',
-            },
-        }),
-        __metadata("design:paramtypes", [HTMLFormElement,
-            core_1.Hooks,
-            core_1.Settings])
-    ], FormValidationController);
     return FormValidationController;
 }());
 exports.FormValidationController = FormValidationController;

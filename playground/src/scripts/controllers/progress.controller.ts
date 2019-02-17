@@ -1,11 +1,6 @@
-import { Controller } from '@karrot/core';
+/*import { Controller, Karrot } from '@karrot/core';
 
-@Controller({
-    name: 'progress-bar',
-})
-export class ProgressController {
-
-    constructor(private element: HTMLElement) { }
+export class ProgressController extends Controller {
 
     public async kOnInit(): Promise<void> {
         if (!this.element) {
@@ -20,4 +15,13 @@ export class ProgressController {
             this.element.style.maxWidth = progress.toString() + '%';
         }, { passive: true });
     }
+}*/
+
+/*
+
+Karrot.get('progress');
+
+export class KarrotProgress extends Karrot {
+    //
 }
+*/

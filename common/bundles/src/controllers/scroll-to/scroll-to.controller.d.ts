@@ -1,9 +1,8 @@
-import { Hooks } from '@karrot/core';
-export declare class ScrollToController {
-    private element;
-    readonly hooks: Hooks;
+import { Controller } from '@karrot/core';
+export declare class ScrollToController extends Controller {
+    element: HTMLElement;
     scrollTarget: HTMLElement;
-    constructor(element: HTMLElement, hooks: Hooks);
+    constructor(element: HTMLElement);
     kOnInit(): void;
     protected onClick(e: Event): Promise<void>;
 }

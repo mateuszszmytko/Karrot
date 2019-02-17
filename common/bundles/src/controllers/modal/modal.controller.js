@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -54,27 +45,32 @@ var ModalState;
     ModalState[ModalState["Closed"] = 3] = "Closed";
 })(ModalState || (ModalState = {}));
 var ModalController = /** @class */ (function () {
-    function ModalController(modal, hooks, settings) {
-        this.modal = modal;
+    function ModalController(element, hooks, settings) {
+        this.element = element;
         this.hooks = hooks;
-        this.settings = settings;
+        this.settings = {
+            closeOnCancel: true,
+            closeOnConfirm: true,
+            closeOnOutsideClick: true,
+            hashTracking: true,
+            positionX: 'middle',
+            positionY: 'middle',
+        };
+        this.confirms = core_1.Karrot.getMany('confirm', HTMLElement, this.element);
+        this.cancels = core_1.Karrot.getMany('cancel', HTMLElement, this.element);
+        this.exits = core_1.Karrot.getMany('close', HTMLElement, this.element);
         this.modalState = ModalState.Closed;
+        this.settings = Object.assign({}, this.settings, settings);
     }
     ModalController.prototype.kOnInit = function () {
         var _this = this;
         this.modalState = ModalState.Closed;
         this.build();
-        if (this.settings.get('hashTracking') && window.location.hash === '#' + this.modalId) {
+        if (this.settings.hashTracking && window.location.hash === '#' + this.modalId) {
             this.openModal();
         }
         this.resolveModalId();
         this.links = Array.from(document.querySelectorAll("[href=\"#" + this.modalId + "\"]"));
-        for (var _i = 0, _a = this.links; _i < _a.length; _i++) {
-            var link = _a[_i];
-            link.addEventListener('click', function (e) {
-                _this.linkClick(e);
-            });
-        }
         utils_1.DOM(this.links)
             .event.add('click', function (e) {
             _this.linkClick(e);
@@ -93,30 +89,30 @@ var ModalController = /** @class */ (function () {
         });
     };
     ModalController.prototype.build = function () {
-        this.modal.classList.add('k-modal');
+        this.element.classList.add('k-modal');
         var wrapper = document.createElement('div');
         wrapper.classList.add('k-modal__wrapper');
-        this.modal.insertAdjacentElement('beforebegin', wrapper);
-        wrapper.insertAdjacentElement('afterbegin', this.modal);
+        this.element.insertAdjacentElement('beforebegin', wrapper);
+        wrapper.insertAdjacentElement('afterbegin', this.element);
         this.wrapper = wrapper;
         var overlay = document.createElement('div');
         overlay.classList.add('k-modal__overlay');
-        this.modal.insertAdjacentElement('beforebegin', overlay);
+        this.element.insertAdjacentElement('beforebegin', overlay);
         this.overlay = overlay;
-        if (this.settings.get('positionX') !== 'middle') {
-            utils_1.DOM(this.modal, this.wrapper).state.set(this.settings.get('positionX'));
+        if (this.settings.positionX !== 'middle') {
+            utils_1.DOM(this.element, this.wrapper).state.set(this.settings.positionX);
         }
-        if (this.settings.get('positionY') !== 'middle') {
-            utils_1.DOM(this.modal, this.wrapper).state.set(this.settings.get('positionY'));
+        if (this.settings.positionY !== 'middle') {
+            utils_1.DOM(this.element, this.wrapper).state.set(this.settings.positionY);
         }
         utils_1.DOM(this.wrapper).state.set('initialized');
     };
     ModalController.prototype.resolveModalId = function () {
-        if (this.settings.get('modalId')) {
-            this.modalId = this.settings.get('modalId');
+        if (this.settings.modalId) {
+            this.modalId = this.settings.modalId;
         }
-        else if (this.modal.id) {
-            this.modalId = this.modal.id;
+        else if (this.element.id) {
+            this.modalId = this.element.id;
         }
         else {
             this.modalId = this._controllerId;
@@ -132,10 +128,10 @@ var ModalController = /** @class */ (function () {
                         }
                         utils_1.DOM(this.wrapper).state.set('dirty');
                         this.modalState = ModalState.DuringOpening;
-                        return [4 /*yield*/, this.hooks.doAction('open')];
+                        return [4 /*yield*/, this.hooks.doAction('modal.open')];
                     case 1:
                         _a.sent();
-                        utils_1.DOM(this.modal, this.overlay, this.wrapper).state.set('active');
+                        utils_1.DOM(this.element, this.overlay, this.wrapper).state.set('active');
                         this.modalState = ModalState.Open;
                         return [2 /*return*/];
                 }
@@ -150,13 +146,13 @@ var ModalController = /** @class */ (function () {
                         if (this.modalState !== ModalState.Open) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.hooks.doAction('beforeClosing')];
+                        return [4 /*yield*/, this.hooks.doAction('modal.beforeClosing')];
                     case 1:
                         _a.sent();
                         this.modalState = ModalState.DuringClosing;
-                        utils_1.DOM(this.modal, this.overlay, this.wrapper).state.set('active', false);
+                        utils_1.DOM(this.element, this.overlay, this.wrapper).state.set('active', false);
                         this.modalState = ModalState.Closed;
-                        return [4 /*yield*/, this.hooks.doAction('close')];
+                        return [4 /*yield*/, this.hooks.doAction('modal.close')];
                     case 2:
                         _a.sent();
                         return [2 /*return*/];
@@ -170,7 +166,7 @@ var ModalController = /** @class */ (function () {
     };
     ModalController.prototype.overlayClick = function (e) {
         e.preventDefault();
-        if (!this.settings.get('closeOnOutsideClick')) {
+        if (!this.settings.closeOnOutsideClick) {
             return;
         }
         this.closeModal();
@@ -181,10 +177,10 @@ var ModalController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         e.preventDefault();
-                        return [4 /*yield*/, this.hooks.doAction('confirm')];
+                        return [4 /*yield*/, this.hooks.doAction('modal.confirm')];
                     case 1:
                         _a.sent();
-                        if (!this.settings.get('closeOnConfirm')) {
+                        if (!this.settings.closeOnConfirm) {
                             return [2 /*return*/];
                         }
                         this.closeModal();
@@ -199,10 +195,10 @@ var ModalController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         e.preventDefault();
-                        return [4 /*yield*/, this.hooks.doAction('cancel')];
+                        return [4 /*yield*/, this.hooks.doAction('modal.cancel')];
                     case 1:
                         _a.sent();
-                        if (!this.settings.get('closeOnCancel')) {
+                        if (!this.settings.closeOnCancel) {
                             return [2 /*return*/];
                         }
                         this.closeModal();
@@ -211,34 +207,6 @@ var ModalController = /** @class */ (function () {
             });
         });
     };
-    __decorate([
-        core_1.Item('confirm'),
-        __metadata("design:type", Array)
-    ], ModalController.prototype, "confirms", void 0);
-    __decorate([
-        core_1.Item('cancel'),
-        __metadata("design:type", Array)
-    ], ModalController.prototype, "cancels", void 0);
-    __decorate([
-        core_1.Item('close'),
-        __metadata("design:type", Array)
-    ], ModalController.prototype, "exits", void 0);
-    ModalController = __decorate([
-        core_1.Controller({
-            name: 'modal',
-            settings: {
-                closeOnCancel: true,
-                closeOnConfirm: true,
-                closeOnOutsideClick: true,
-                hashTracking: true,
-                positionX: 'middle',
-                positionY: 'middle',
-            },
-        }),
-        __metadata("design:paramtypes", [HTMLElement,
-            core_1.Hooks,
-            core_1.Settings])
-    ], ModalController);
     return ModalController;
 }());
 exports.ModalController = ModalController;
