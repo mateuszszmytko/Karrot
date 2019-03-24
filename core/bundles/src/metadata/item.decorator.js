@@ -9,10 +9,11 @@ function Item(name, capsule) {
         if (typeof capsule === 'string') {
             capsule = { searchStrategy: capsule };
         }
-        else {
-            if (!capsule.searchStrategy) {
-                capsule.searchStrategy = 'children';
-            }
+        else if (typeof capsule === 'function') {
+            capsule = { searchStrategy: 'children', type: capsule };
+        }
+        if (!capsule.searchStrategy) {
+            capsule.searchStrategy = 'children';
         }
         metaElements.push({ propertyKey: propertyKey, name: itemName, capsule: capsule });
         Reflect.defineMetadata('Controller:items', metaElements, target.constructor);

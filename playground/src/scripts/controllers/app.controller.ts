@@ -19,7 +19,7 @@ export class AppController {
     @Item()
     public myForm: FormValidationController;
 
-    @Item('my-form')
+    @Item('my-form', FormValidationController)
     public form: HTMLElement;
 
     private _data: { a: string, c: string };
