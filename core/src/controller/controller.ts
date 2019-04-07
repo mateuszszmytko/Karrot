@@ -4,12 +4,12 @@ import { ISettings } from "../interfaces/settings.interface";
 
 export interface IFilters {
     // tslint:disable-next-line:no-any
-    [key: string]: (...args: any) => any;
+    [key: string]: (...args: any[]) => any;
 }
 
 export interface IActions {
     // tslint:disable-next-line:no-any
-    [key: string]: (...args: any) => void;
+    [key: string]: (...args: any[]) => void;
 }
 // tslint:disable-next-line
 export abstract class KarrotController {

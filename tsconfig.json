@@ -15,10 +15,6 @@
             "dom"
         ],
         "baseUrl": ".",
-        
-        "types": [
-            "reflect-metadata"
-        ]
     },
     "compileOnSave": false,
     

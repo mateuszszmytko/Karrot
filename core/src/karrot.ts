@@ -74,7 +74,7 @@ export class Karrot extends Controller {
                 const instance = (new (attachment as any)(this.element, this.hooks, this.settings));
                 const existingInstance =
                     this.attachments.find(a => {
-                        return a.constructor.name === attachment.prototype.constructor.name;
+                        return Object.getPrototypeOf(a) === attachment.prototype;
                     });
 
                 if (existingInstance) {
@@ -92,7 +92,6 @@ export class Karrot extends Controller {
 
                 this.attachments.push(attachment);
             }
-
         }
     }
 }

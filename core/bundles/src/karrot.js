@@ -94,7 +94,7 @@ var Karrot = /** @class */ (function (_super) {
             if (attachment.prototype && attachment.prototype.constructor.name) {
                 var instance = (new attachment(this_1.element, this_1.hooks, this_1.settings));
                 var existingInstance = this_1.attachments.find(function (a) {
-                    return a.constructor.name === attachment.prototype.constructor.name;
+                    return Object.getPrototypeOf(a) === attachment.prototype;
                 });
                 if (existingInstance) {
                     return "continue";

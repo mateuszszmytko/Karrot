@@ -1,10 +1,10 @@
 import { Hooks } from "./hooks";
 import { ISettings } from "../interfaces/settings.interface";
 export interface IFilters {
-    [key: string]: (...args: any) => any;
+    [key: string]: (...args: any[]) => any;
 }
 export interface IActions {
-    [key: string]: (...args: any) => void;
+    [key: string]: (...args: any[]) => void;
 }
 export declare abstract class KarrotController {
     element: HTMLElement;

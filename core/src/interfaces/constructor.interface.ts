@@ -10,4 +10,4 @@ export interface IConstructorAny {
     [key: string]: any;
 }
 
-export type IFunctionAny = (...args: any) => any;
+export type IFunctionAny = (...args: any[]) => any;
