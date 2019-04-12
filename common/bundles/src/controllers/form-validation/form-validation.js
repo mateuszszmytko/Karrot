@@ -48,7 +48,7 @@ var FormValidation = /** @class */ (function () {
     }
     FormValidation.prototype.kOnInit = function () {
         var _this = this;
-        this.inputs = Array.from(this.element.querySelectorAll('input'));
+        this.inputs = Array.from(this.element.querySelectorAll('input, select, textarea'));
         utils_1.DOM(this.element)
             .class.add('k-form-validation')
             .attribute.set('novalidate')

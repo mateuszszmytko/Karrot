@@ -35,7 +35,7 @@ export class FormValidation {
     }
 
     public kOnInit(): void {
-        this.inputs = Array.from(this.element.querySelectorAll('input'));
+        this.inputs = Array.from(this.element.querySelectorAll('input, select, textarea'));
 
         DOM(this.element)
             .class.add('k-form-validation')
