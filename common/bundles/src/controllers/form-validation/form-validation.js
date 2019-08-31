@@ -37,14 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("../../utils");
 var FormValidation = /** @class */ (function () {
-    function FormValidation(element, hooks, settings) {
-        this.element = element;
-        this.hooks = hooks;
-        this.settings = {
+    function FormValidation(item) {
+        this.item = item;
+        this.defaultSettings = {
             defaultValidationEvents: true,
             validationType: 'mixed',
         };
-        this.settings = Object.assign({}, this.settings, settings);
+        this.settings = {};
+        // public element: HTMLElement, public hooks: Hooks, settings: ISettings
+        this.settings = item.appendSettings(this.defaultSettings);
+        this.element = item.element;
+        this.hooks = item.hooks;
     }
     FormValidation.prototype.kOnInit = function () {
         var _this = this;

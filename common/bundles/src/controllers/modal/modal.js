@@ -45,10 +45,8 @@ var ModalState;
     ModalState[ModalState["Closed"] = 3] = "Closed";
 })(ModalState || (ModalState = {}));
 var Modal = /** @class */ (function () {
-    function Modal(element, hooks, settings) {
-        this.element = element;
-        this.hooks = hooks;
-        this.settings = {
+    function Modal(item) {
+        this.defaultSettings = {
             closeOnCancel: true,
             closeOnConfirm: true,
             closeOnOutsideClick: true,
@@ -56,11 +54,14 @@ var Modal = /** @class */ (function () {
             positionX: 'middle',
             positionY: 'middle',
         };
+        this.settings = {};
         this.confirms = core_1.Karrot.getMany('confirm', HTMLElement, this.element);
         this.cancels = core_1.Karrot.getMany('cancel', HTMLElement, this.element);
         this.exits = core_1.Karrot.getMany('close', HTMLElement, this.element);
         this.modalState = ModalState.Closed;
-        this.settings = Object.assign({}, this.settings, settings);
+        this.settings = item.appendSettings(this.defaultSettings);
+        this.element = item.element;
+        this.hooks = item.hooks;
     }
     Modal.prototype.kOnInit = function () {
         var _this = this;

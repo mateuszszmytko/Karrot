@@ -1,14 +1,14 @@
-import { IFunctionAny, IConstructor, IConstructorAny } from "./interfaces/constructor.interface";
-import { Controller } from "./controller";
-export declare class Karrot extends Controller {
-    static init(): void;
-    static attach(name: string, ...attached: Array<IConstructorAny | IFunctionAny>): void;
-    static getMany(name: string, ...typeOrContexts: HTMLElement[]): Karrot[];
-    static getMany<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T[];
-    static get(name: string, ...typeOrContexts: HTMLElement[]): Karrot | undefined;
-    static get<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T | undefined;
-    private static imp;
-    readonly names: string[];
-    readonly attachments: any[];
-    attach(...attachments: Array<IConstructorAny | IFunctionAny>): void;
+import { IConstructor, IConstructorAny, IFunctionAttach } from "./interfaces/constructor.interface";
+import { KarrotItem } from "./karrot-item";
+export interface IKarrot {
+    attach(name: string | KarrotItem, ...attached: Array<IConstructorAny | IFunctionAttach>): void;
+    get(name: string, ...typeOrContexts: HTMLElement[]): KarrotItem | undefined;
+    get<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T | undefined;
+    get(name: any, ...typeOrContexts: any): any;
+    getMany(name: string, ...typeOrContexts: HTMLElement[]): KarrotItem[];
+    getMany<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T[];
+    getMany(name: any, ...typeOrContexts: any): any;
+    reload(): void;
+    refresh(): void;
 }
+export declare const Karrot: Readonly<IKarrot>;

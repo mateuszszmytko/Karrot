@@ -1,5 +1,0 @@
-@each $s, $s-width in $spacings {
-    .u-spacing-#{$s} {
-        margin: $base-spacer * $s-width 0;
-    }
-}

@@ -1,9 +1,10 @@
-import { Hooks } from '@karrot/core';
+import { KarrotItem } from '@karrot/core';
+import { TScrollToSettings } from '../../utils/scroll-to';
 export declare class ScrollTo {
-    element: HTMLElement;
-    hooks: Hooks;
+    item: KarrotItem;
+    static defaultSettings: TScrollToSettings;
     scrollTarget: HTMLElement;
-    constructor(element: HTMLElement, hooks: Hooks);
+    constructor(item: KarrotItem);
     kOnInit(): Promise<void>;
     protected onClick(e: Event): Promise<void>;
 }

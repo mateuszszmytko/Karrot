@@ -1,5 +1,5 @@
 @each $s, $s-array in $font-sizes {
     .u-font-size-#{$s} {
-        @include font-size($s);
+        @include font($s);
     }
 }

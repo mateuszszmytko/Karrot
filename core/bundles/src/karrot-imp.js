@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var items_storage_1 = require("./items/items-storage");
-var karrot_1 = require("./karrot");
+var karrot_item_1 = require("./karrot-item");
 // tslint:disable:no-any
 var KarrotImp = /** @class */ (function () {
     function KarrotImp() {
@@ -17,12 +17,21 @@ var KarrotImp = /** @class */ (function () {
     KarrotImp.prototype.onInit = function () {
         this._itemsStorage.init();
     };
+    KarrotImp.prototype.refresh = function () {
+        this._itemsStorage.parse(false);
+    };
     KarrotImp.prototype.attach = function (name) {
         var attachments = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             attachments[_i - 1] = arguments[_i];
         }
-        var items = this.getMany(name);
+        var items = [];
+        if (typeof name === 'string') {
+            items = this.getMany(name);
+        }
+        else {
+            items.push(name);
+        }
         for (var _a = 0, items_1 = items; _a < items_1.length; _a++) {
             var item = items_1[_a];
             item.attach.apply(item, attachments);
@@ -34,7 +43,7 @@ var KarrotImp = /** @class */ (function () {
             typeOrContexts[_i - 1] = arguments[_i];
         }
         var items = [];
-        var type = karrot_1.Karrot;
+        var type = karrot_item_1.KarrotItem;
         var context;
         for (var _a = 0, typeOrContexts_1 = typeOrContexts; _a < typeOrContexts_1.length; _a++) {
             var typeOrContext = typeOrContexts_1[_a];
@@ -55,7 +64,7 @@ var KarrotImp = /** @class */ (function () {
             items = this.storage.getItemsByName(name, context);
         }
         var returnVal = [];
-        if (type === karrot_1.Karrot) {
+        if (type === karrot_item_1.KarrotItem) {
             returnVal.push.apply(returnVal, items);
         }
         else if (type === HTMLElement) {

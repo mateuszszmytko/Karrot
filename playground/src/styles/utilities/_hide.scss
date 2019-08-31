@@ -1,0 +1,22 @@
+@each $b, $width in $breakpoints {
+     @if $width > 0 {
+        @media (min-width: $width) {
+            .u-hide-#{$b} {
+                display: none;
+            }
+        }
+    }
+}
+@each $b, $width in $breakpoints {
+     @if $width > 0 {
+        @media (max-width: $width - 1) {
+            .u-hide-#{$b}-max {
+                display: none;
+            }
+        }
+    }
+}
+
+.u-hide {
+    display: none;
+}

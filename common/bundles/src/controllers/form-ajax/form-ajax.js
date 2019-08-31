@@ -44,49 +44,55 @@ var FormStatus;
     FormStatus[FormStatus["Sent"] = 2] = "Sent";
 })(FormStatus || (FormStatus = {}));
 var FormAjax = /** @class */ (function () {
-    function FormAjax(element, hooks, settings) {
-        this.element = element;
-        this.hooks = hooks;
-        this.settings = {
+    function FormAjax(item) {
+        this.item = item;
+        this.defaultSettings = {
             clearAfterSending: true,
+            clearHiddenAfterSending: false,
             defaultSentEvents: true,
             jsonResponseData: false,
             method: 'POST',
         };
-        this.formOutput = core_1.Karrot.get('formOutput', HTMLElement, this.element.parentElement);
-        this.submit = core_1.Karrot.get('submit', HTMLElement, this.element);
+        this.formOutput = core_1.Karrot.get('formOutput', HTMLElement, this.item.element.parentElement);
+        this.submit = core_1.Karrot.get('submit', HTMLElement, this.item.element);
         this.status = FormStatus.None;
-        this.settings = Object.assign({}, this.settings, settings);
+        item.appendSettings(this.defaultSettings);
     }
     FormAjax.prototype.kOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
+            var _i, _a, select, _b;
             var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        this.inputs = Array.from(this.element.querySelectorAll('input'));
-                        utils_1.DOM(this.element)
+                        this.inputs = Array.from(this.item.element.querySelectorAll('input, textarea'));
+                        this.selects = Array.from(this.item.element.querySelectorAll('select'));
+                        // save select default value
+                        for (_i = 0, _a = this.selects; _i < _a.length; _i++) {
+                            select = _a[_i];
+                            select.setAttribute('data-default', select.selectedIndex.toString());
+                        }
+                        utils_1.DOM(this.item.element)
                             .class.add('k-form')
                             .event.add('submit', function (e) {
                             _this.onSubmit(e);
                         });
-                        _a = this;
-                        return [4 /*yield*/, this.hooks.applyFilter(this.formOutput, 'formAjax.output')];
+                        _b = this;
+                        return [4 /*yield*/, this.item.hooks.applyFilter(this.formOutput, 'formAjax.output')];
                     case 1:
-                        _a.formOutput = _b.sent();
+                        _b.formOutput = _c.sent();
                         utils_1.DOM(this.formOutput)
                             .class.add('k-form__output');
                         utils_1.DOM(this.submit)
                             .class.add('k-form__submit');
-                        if (this.settings.defaultSentEvents) {
+                        if (this.item.settings.defaultSentEvents) {
                             utils_1.DOM(this.submit)
                                 .class.add('k-form__submit--circle');
                         }
-                        this.hooks.addAction('formAjax.beforeSending', function () {
+                        this.item.hooks.addAction('formAjax.beforeSending', function () {
                             _this.formBeforeSending();
                         });
-                        this.hooks.addAction('formAjax.sent', function (response, formOutput) {
+                        this.item.hooks.addAction('formAjax.sent', function (response, formOutput) {
                             _this.formSent(response, formOutput);
                         });
                         return [2 /*return*/];
@@ -100,22 +106,22 @@ var FormAjax = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.element.checkValidity()) {
+                        if (!this.item.element.checkValidity()) {
                             return [2 /*return*/];
                         }
                         e.preventDefault();
                         if (this.status === FormStatus.Sending) {
                             return [2 /*return*/];
                         }
-                        action = this.element.action;
-                        formData = new FormData(this.element);
-                        return [4 /*yield*/, this.hooks.applyFilter(formData, 'formAjax.formData')];
+                        action = this.item.element.getAttribute('action') || '';
+                        formData = new FormData(this.item.element);
+                        return [4 /*yield*/, this.item.hooks.applyFilter(formData, 'formAjax.formData')];
                     case 1:
                         formData = _a.sent();
-                        return [4 /*yield*/, this.hooks.doAction('formAjax.beforeSending', formData, action)];
+                        return [4 /*yield*/, this.item.hooks.doAction('formAjax.beforeSending', formData, action)];
                     case 2:
                         _a.sent();
-                        if (this.settings.method === 'GET') {
+                        if (this.item.settings.method === 'GET') {
                             formDataObject_1 = {};
                             formData.forEach(function (value, key) {
                                 if (!value) {
@@ -130,22 +136,25 @@ var FormAjax = /** @class */ (function () {
                         }
                         _a.label = 3;
                     case 3:
-                        _a.trys.push([3, 5, , 7]);
+                        _a.trys.push([3, 6, , 8]);
                         return [4 /*yield*/, fetch(action, {
-                                body: this.settings.method === 'POST' ? formData : undefined,
-                                method: this.settings.method || 'POST',
+                                body: this.item.settings.method === 'POST' ? formData : undefined,
+                                method: this.item.settings.method || 'POST',
                             })];
                     case 4:
                         response = _a.sent();
-                        return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.item.hooks.doAction('formAjax.success', response, this.formOutput)];
                     case 5:
-                        error_1 = _a.sent();
-                        return [4 /*yield*/, this.hooks.doAction('formAjax.error', error_1)];
-                    case 6:
                         _a.sent();
-                        return [3 /*break*/, 7];
-                    case 7: return [4 /*yield*/, this.hooks.doAction('formAjax.sent', response, this.formOutput)];
-                    case 8:
+                        return [3 /*break*/, 8];
+                    case 6:
+                        error_1 = _a.sent();
+                        return [4 /*yield*/, this.item.hooks.doAction('formAjax.error', error_1)];
+                    case 7:
+                        _a.sent();
+                        return [3 /*break*/, 8];
+                    case 8: return [4 /*yield*/, this.item.hooks.doAction('formAjax.sent', response, this.formOutput)];
+                    case 9:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -154,42 +163,52 @@ var FormAjax = /** @class */ (function () {
     };
     FormAjax.prototype.formBeforeSending = function () {
         this.status = FormStatus.Sending;
-        utils_1.DOM(this.element, this.submit, this.formOutput)
+        utils_1.DOM(this.item.element, this.submit, this.formOutput)
             .state.set('active');
     };
     FormAjax.prototype.formSent = function (response, formOutput) {
         return __awaiter(this, void 0, void 0, function () {
-            var _i, _a, input, reponseObject;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _i, _a, input, _b, _c, select, reponseObject;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         this.status = FormStatus.Sent;
-                        utils_1.DOM(this.element, this.submit, this.formOutput)
+                        utils_1.DOM(this.item.element, this.submit, this.formOutput)
                             .state.set('active', false)
-                            .state.set(Math.round(response.status / 100) === 2 ? 'successful' : 'error');
-                        if (this.settings.clearAfterSending) {
+                            .state.set((response && Math.round(response.status / 100) === 2) ? 'successful' : 'error');
+                        if (this.item.settings.clearAfterSending) {
                             for (_i = 0, _a = this.inputs; _i < _a.length; _i++) {
                                 input = _a[_i];
-                                if (input.type === 'checkbox' || input.type === 'radio') {
+                                if (input.type === 'hidden' && this.item.settings.clearHiddenAfterSending) {
+                                    input.value = '';
+                                }
+                                else if (input.type === 'checkbox' || input.type === 'radio') {
                                     input.checked = false;
                                 }
                                 else {
                                     input.value = '';
                                 }
                             }
+                            for (_b = 0, _c = this.selects; _b < _c.length; _b++) {
+                                select = _c[_b];
+                                select.options.selectedIndex = parseInt(select.getAttribute('data-default') || '0', 0);
+                            }
                         }
-                        if (!this.settings.defaultSentEvents) {
+                        if (!this.item.settings.defaultSentEvents) {
                             return [2 /*return*/];
                         }
-                        if (!this.settings.jsonResponseData) return [3 /*break*/, 2];
+                        if (!response) {
+                            return [2 /*return*/];
+                        }
+                        if (!this.item.settings.jsonResponseData) return [3 /*break*/, 2];
                         return [4 /*yield*/, response.json()];
                     case 1:
-                        reponseObject = _b.sent();
+                        reponseObject = _d.sent();
                         return [3 /*break*/, 4];
                     case 2: return [4 /*yield*/, response.text()];
                     case 3:
-                        reponseObject = _b.sent();
-                        _b.label = 4;
+                        reponseObject = _d.sent();
+                        _d.label = 4;
                     case 4:
                         if (this.formOutput) {
                             this.formOutput.innerHTML = reponseObject;

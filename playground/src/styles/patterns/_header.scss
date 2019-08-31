@@ -1,8 +1,21 @@
 .p-header {
-    margin: 150px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    
+    text-align: center;
+
 }
 
 .p-header__title {
-    @include font-size('title');
+    @include font('title');
+    font-weight: 300;
+}
+
+.p-header__text {
+    max-width: 770px;
+    margin: 2em auto;
+    @include font('subtitle');
     font-weight: 300;
 }

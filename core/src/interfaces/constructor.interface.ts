@@ -1,3 +1,5 @@
+import { KarrotItem } from "../karrot-item";
+
 /* tslint:disable:no-any */
 
 export interface IConstructor<T> {
@@ -11,3 +13,4 @@ export interface IConstructorAny {
 }
 
 export type IFunctionAny = (...args: any[]) => any;
+export type IFunctionAttach = (item: KarrotItem) => any;

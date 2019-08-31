@@ -1,7 +1,7 @@
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "./bundles",
+        "outDir": "./bundles",
 		"baseUrl": ".",
         "paths": {
             "@karrot/core": [

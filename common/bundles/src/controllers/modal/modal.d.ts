@@ -1,4 +1,4 @@
-import { Hooks, ISettings } from '@karrot/core';
+import { Hooks, ISettings, KarrotItem } from '@karrot/core';
 declare type ModalSettings = {
     positionX: 'middle' | 'left' | 'top';
     positionY: 'middle' | 'top' | 'bottom';
@@ -15,9 +15,10 @@ declare enum ModalState {
     Closed = 3
 }
 export declare class Modal {
+    defaultSettings: ModalSettings;
+    settings: ISettings;
     element: HTMLElement;
     hooks: Hooks;
-    settings: ModalSettings;
     links: HTMLElement[];
     wrapper: HTMLElement;
     overlay: HTMLElement;
@@ -26,7 +27,7 @@ export declare class Modal {
     exits: HTMLElement[];
     protected modalState: ModalState;
     protected modalId: string;
-    constructor(element: HTMLElement, hooks: Hooks, settings: ISettings);
+    constructor(item: KarrotItem);
     kOnInit(): void;
     protected build(): void;
     protected resolveModalId(): void;

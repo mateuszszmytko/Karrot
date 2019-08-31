@@ -1,13 +1,12 @@
 {
   "name": "@karrot/common",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "",
   "main": "bundles/index.js",
   "peerDependencies": {
-    "@karrot/core": "0.5.0"
+    "@karrot/core": "0.6.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "start": "webpack-dev-server",

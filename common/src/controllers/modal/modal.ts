@@ -1,4 +1,4 @@
-import { Hooks, ISettings, Karrot } from '@karrot/core';
+import { Hooks, ISettings, Karrot, KarrotItem } from '@karrot/core';
 import { DOM } from '../../utils';
 
 /* tslint:disable:no-any */
@@ -21,7 +21,7 @@ enum ModalState {
 }
 
 export class Modal {
-    public settings: ModalSettings =  {
+    public defaultSettings: ModalSettings =  {
         closeOnCancel: true,
         closeOnConfirm: true,
         closeOnOutsideClick: true,
@@ -29,6 +29,10 @@ export class Modal {
         positionX: 'middle',
         positionY: 'middle',
     };
+
+    public settings: ISettings = {};
+    public element: HTMLElement;
+    public hooks: Hooks;
 
     public links: HTMLElement[];
     public wrapper: HTMLElement;
@@ -41,9 +45,12 @@ export class Modal {
     protected modalState: ModalState;
     protected modalId: string;
 
-    constructor(public element: HTMLElement, public hooks: Hooks, settings: ISettings) {
+    constructor(item: KarrotItem) {
         this.modalState = ModalState.Closed;
-        this.settings = Object.assign({}, this.settings, settings);
+        this.settings = item.appendSettings(this.defaultSettings);
+        this.element = item.element;
+        this.hooks = item.hooks;
+
     }
 
     public kOnInit(): void {

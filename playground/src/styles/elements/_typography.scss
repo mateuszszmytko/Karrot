@@ -4,17 +4,14 @@ h3,
 h4,
 h5,
 h6 {
-    @if(font('heading') != font('default')) {
-        font-family: font('heading');
+    @if(font-family('heading') != font-family('default')) {
+        font-family: font-family('heading');
     }
     
-    margin: spacing('default') 0;
-    color: color('heading');
-    line-height: $base-line-height;
+    margin: 1em 0;
 }
 
 p {
-    margin: spacing('default') 0;
-    line-height: $base-line-height;
+    margin: 1em 0;
 }
 

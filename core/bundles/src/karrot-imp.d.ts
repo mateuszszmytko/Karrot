@@ -1,14 +1,16 @@
 import { ItemsStorage } from './items/items-storage';
-import { IConstructor, IConstructorAny, IFunctionAny } from './interfaces';
-import { Karrot } from './karrot';
+import { IConstructor, IConstructorAny } from './interfaces';
+import { KarrotItem } from './karrot-item';
+import { IFunctionAttach } from './interfaces/constructor.interface';
 export declare class KarrotImp {
     private _itemsStorage;
     readonly storage: ItemsStorage;
     constructor();
     onInit(): void;
-    attach(name: string, ...attachments: Array<IConstructorAny | IFunctionAny>): void;
-    getMany(name: string | HTMLElement, ...typeOrContexts: HTMLElement[]): Karrot[];
+    refresh(): void;
+    attach(name: string | KarrotItem, ...attachments: Array<IConstructorAny | IFunctionAttach>): void;
+    getMany(name: string | HTMLElement, ...typeOrContexts: HTMLElement[]): KarrotItem[];
     getMany<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T[];
-    get(name: string | HTMLElement, ...typeOrContexts: HTMLElement[]): Karrot | undefined;
+    get(name: string | HTMLElement, ...typeOrContexts: HTMLElement[]): KarrotItem | undefined;
     get<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T | undefined;
 }

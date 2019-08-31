@@ -1,11 +1,11 @@
-import { Hooks, ISettings } from '@karrot/core';
+import { Hooks, ISettings, KarrotItem } from '@karrot/core';
 export interface IFormActions {
-    error(capsule: InputValidationCapsule): void;
-    success(capsule: InputValidationCapsule): void;
-    result(isValid: boolean, capsules: InputValidationCapsule[]): void;
+    'formValidation.error'(capsule: InputValidationCapsule): void;
+    'formValidation.success'(capsule: InputValidationCapsule): void;
+    'formValidation.result'(isValid: boolean, capsules: InputValidationCapsule[]): void;
 }
 export interface IFormFilters {
-    inputValidation(capsule: InputValidationCapsule): InputValidationCapsule;
+    'formValidation.inputValidation'(capsule: InputValidationCapsule): InputValidationCapsule;
 }
 export declare type InputValidationCapsule = {
     input: HTMLInputElement;
@@ -17,11 +17,13 @@ declare type FormSettings = {
     defaultValidationEvents: boolean;
 };
 export declare class FormValidation {
+    item: KarrotItem;
+    inputs: HTMLInputElement[];
+    defaultSettings: FormSettings;
+    settings: ISettings;
     element: HTMLElement;
     hooks: Hooks;
-    inputs: HTMLInputElement[];
-    settings: FormSettings;
-    constructor(element: HTMLElement, hooks: Hooks, settings: ISettings);
+    constructor(item: KarrotItem);
     kOnInit(): void;
     protected validityCheck(e: Event, useInput?: HTMLInputElement): Promise<void>;
     protected onValidationError(capsule: InputValidationCapsule): void;

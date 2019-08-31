@@ -2,6 +2,7 @@ body {
     background: color('background');
 
     color: color(text);
-    font-family: font('default');
-    font-size: $base-font-size;
+    @include font('default', 'default');
+
+    line-height: 1.4;
 }

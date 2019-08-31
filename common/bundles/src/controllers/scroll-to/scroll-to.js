@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var scroll_to_1 = require("../../utils/scroll-to");
 var ScrollTo = /** @class */ (function () {
-    function ScrollTo(element, hooks) {
-        this.element = element;
-        this.hooks = hooks;
+    function ScrollTo(item) {
+        this.item = item;
+        item.appendSettings(ScrollTo.defaultSettings);
     }
     ScrollTo.prototype.kOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -48,18 +48,22 @@ var ScrollTo = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        targetSelector = this.element.getAttribute('href');
-                        if (!targetSelector) {
+                        targetSelector = this.item.element.getAttribute('href');
+                        if (!targetSelector || targetSelector === '#') {
+                            console.warn('Href attribute is empty or is not valid: ' + targetSelector, this.item.element);
                             return [2 /*return*/];
                         }
                         scrollTarget = document.querySelector(targetSelector);
-                        return [4 /*yield*/, this.hooks.applyFilter(scrollTarget, 'scrollTo.target')];
+                        return [4 /*yield*/, this.item.hooks.applyFilter(scrollTarget, 'scrollTo.target')];
                     case 1:
                         scrollTarget = _a.sent();
                         if (scrollTarget) {
                             this.scrollTarget = scrollTarget;
                         }
-                        this.element.addEventListener('click', function (e) {
+                        else {
+                            console.warn('Cannot find element with selector: ' + targetSelector);
+                        }
+                        this.item.element.addEventListener('click', function (e) {
                             _this.onClick(e);
                         });
                         return [2 /*return*/];
@@ -76,19 +80,25 @@ var ScrollTo = /** @class */ (function () {
                         if (!this.scrollTarget) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.hooks.doAction('scrollTo.before', this.scrollTarget)];
+                        return [4 /*yield*/, this.item.hooks.doAction('scrollTo.before', this.scrollTarget)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, scroll_to_1.scrollTo(this.scrollTarget)];
+                        return [4 /*yield*/, scroll_to_1.scrollTo(this.scrollTarget, this.item.settings)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, this.hooks.doAction('scrollTo.after', this.scrollTarget)];
+                        return [4 /*yield*/, this.item.hooks.doAction('scrollTo.after', this.scrollTarget)];
                     case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
+    };
+    ScrollTo.defaultSettings = {
+        easing: 'easeInOutCubic',
+        historyPush: true,
+        offset: 0,
+        speed: 500,
     };
     return ScrollTo;
 }());

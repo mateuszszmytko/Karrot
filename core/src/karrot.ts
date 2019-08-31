@@ -1,43 +1,46 @@
 import { KarrotImp } from "./karrot-imp";
-import { IFunctionAny, IConstructor, IConstructorAny } from "./interfaces/constructor.interface";
-import { Controller } from "./controller";
+import { IFunctionAny, IConstructor, IConstructorAny, IFunctionAttach } from "./interfaces/constructor.interface";
+import { KarrotItem } from "./karrot-item";
 
 // tslint:disable:no-any
-/*
+
 export interface IKarrot {
-    init(): void;
-    attach(name: string, ...attached: Array<IConstructorAny | IFunctionAny>): void;
-    get(name: string, ...typeOrContexts: HTMLElement[]): HTMLElement[];
-    get<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T[];
-    getOne(name: string, ...typeOrContexts: HTMLElement[]): HTMLElement | undefined;
-    getOne<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T | undefined;
+    attach(name: string | KarrotItem, ...attached: Array<IConstructorAny | IFunctionAttach>): void;
+    get(name: string, ...typeOrContexts: HTMLElement[]): KarrotItem | undefined;
+    get<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T | undefined;
+    get(name: any, ...typeOrContexts: any): any;
+    getMany(name: string, ...typeOrContexts: HTMLElement[]): KarrotItem[];
+    getMany<T>(name: string | HTMLElement, ...typeOrContexts: Array<IConstructor<T> | HTMLElement>): T[];
+    getMany(name: any, ...typeOrContexts: any): any;
+    reload(): void;
+    refresh(): void;
 }
 
 export const Karrot: Readonly<IKarrot> = (() => {
-    let imp: KarrotImp;
+    const imp: KarrotImp = new KarrotImp();
+    imp.onInit();
 
     return {
         attach: (name: string, ...attached: Array<IConstructorAny | IFunctionAny>) => {
-            imp.manager.attach(name, ...attached);
+            imp.attach(name, ...attached);
         },
         get: (name: string, ...typeOrContexts: any[]) => {
             return imp.get(name, ...typeOrContexts);
         },
-
-        getOne: (name: string, ...typeOrContexts: any[]) => {
-            return imp.getOne(name, ...typeOrContexts);
+        getMany: (name: string, ...typeOrContexts: any[]) => {
+            return imp.getMany(name, ...typeOrContexts);
         },
-        init: () => {
-            imp = new KarrotImp();
-
+        refresh: () => {
+            imp.refresh();
+        },
+        reload: () => {
             imp.onInit();
         },
     };
 })();
 
-*/
-
-export class Karrot extends Controller {
+/*
+export class Karrot2 {
     public static init(): void {
         Karrot.imp = new KarrotImp();
 
@@ -63,35 +66,5 @@ export class Karrot extends Controller {
     }
 
     private static imp: KarrotImp;
-
-    public readonly names: string[] = [];
-    public readonly attachments: any[] = [];
-
-    public attach(...attachments: Array<IConstructorAny | IFunctionAny>): void {
-        for (const attachment of attachments) {
-
-            if (attachment.prototype && attachment.prototype.constructor.name) {
-                const instance = (new (attachment as any)(this.element, this.hooks, this.settings));
-                const existingInstance =
-                    this.attachments.find(a => {
-                        return Object.getPrototypeOf(a) === attachment.prototype;
-                    });
-
-                if (existingInstance) {
-                    continue;
-                }
-
-                if (instance.kOnInit && typeof instance.kOnInit === 'function') {
-                    instance.kOnInit();
-                }
-
-                this.attachments.push(instance);
-
-            } else {
-                const func = (attachment as any)(this.element, this.hooks, this.settings);
-
-                this.attachments.push(attachment);
-            }
-        }
-    }
 }
+*/

@@ -1,7 +1,15 @@
 .c-logo {
-    margin: spacing('default') 30px;
+    margin: 0;
+
+    a {
+        color: color('background');
+        font-weight: 300;
+        text-transform: uppercase;
+    }
 
     img {
-        max-width: 100%;
+        max-height: 64px;
+        padding-right: 4px;
+        vertical-align: middle;
     }
 }

@@ -1,10 +1,10 @@
 const webpackMerge = require('webpack-merge'),
-	baseConfig = require('./webpack.base');
+    baseConfig = require('./webpack.base');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
 
 module.exports = webpackMerge(baseConfig, {
-	mode: ENV,
+    mode: ENV,
     devtool: 'source-map',
     devServer: {
         clientLogLevel: "error",
@@ -16,8 +16,15 @@ module.exports = webpackMerge(baseConfig, {
             {
                 test: /\.scss$/,
                 use: [
-                    'style-loader',
-                    { loader: 'css-loader', options: { sourceMap: true, } },
+                    'style-loader?singleton=true',
+                    {
+                        loader: 'css-loader', options: {
+                            sourceMap: true,
+                            url: (url) => {
+                                return url.includes('.webp');
+                            },
+                        }
+                    },
                     { loader: 'sass-loader', options: { sourceMap: true, } }
                 ]
             }

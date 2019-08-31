@@ -13,11 +13,11 @@ var DOMManager = /** @class */ (function () {
         var _this = this;
         this._class = {
             add: function () {
+                var _a;
                 var classNames = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     classNames[_i] = arguments[_i];
                 }
-                var _a;
                 for (var _b = 0, _c = _this._elements; _b < _c.length; _b++) {
                     var element = _c[_b];
                     (_a = element.classList).add.apply(_a, classNames);
@@ -25,11 +25,11 @@ var DOMManager = /** @class */ (function () {
                 return _this;
             },
             remove: function () {
+                var _a;
                 var classNames = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     classNames[_i] = arguments[_i];
                 }
-                var _a;
                 for (var _b = 0, _c = _this._elements; _b < _c.length; _b++) {
                     var element = _c[_b];
                     (_a = element.classList).remove.apply(_a, classNames);

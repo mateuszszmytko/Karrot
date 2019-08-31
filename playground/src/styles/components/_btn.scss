@@ -2,14 +2,13 @@
     display: inline-block;
 
     padding: 5px 35px;
-    border: 2px solid color('secondary');
+    border: 2px solid color('primary');
     border-radius: 25px;
 
     background: transparent;
-    color: color('secondary');
+    color: color('primary');
 
     font-size: 1rem;
-    line-height: $base-line-height;
 
     text-decoration: none;
     cursor: pointer;
@@ -17,7 +16,7 @@
     &:active,
     &:focus,
     &:hover {
-        background: color('secondary');
+        background: color('primary');
         color: color('background');
     }
 }

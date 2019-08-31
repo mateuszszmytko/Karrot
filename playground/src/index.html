@@ -5,141 +5,58 @@
 <head>
     <meta charset="utf-8">
 
-    <title>appaya - LP boilerplate</title>
+    <title>Karrot - example starter</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-  <![endif]-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Montserrat" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 
 </head>
 
 <body k-item="app">
-    <div k-item="progress-bar"></div>
     <nav class="p-nav">
         <div class="o-container">
             <div class="o-grid o-grid--align-center">
                 <div class="o-grid__item sm-4">
-                    <p class="c-text-logo">
-                        <a href="/">Karrot</a>
+                    <p class="c-logo">
+                        <a href="/">
+                        </a>
                     </p>
                 </div>
                 <div class="o-grid__item sm-8">
                     <ul class="c-menu">
                         <li>
-                            <a class="c-menu__link" k-item="link" href="#header">What is Karrot?</a>
+                            <a class="c-menu__link" k-item="link" data-speed="100" href="#header">Top</a>
                         </li>
                         <li>
-                            <a class="c-menu__link" k-item="link" href="#features">Features</a>
+                            <a class="c-menu__link" k-item="link" data-offset="300" href="#form-example">Form example</a>
                         </li>
-                        <li>
-                            <a class="c-menu__link" k-item="link; special-link" href="#about">Documentation</a>
-                        </li>
-                        <li>
-                            <button class="c-menu__link c-btn" k-item="toggle" data-targets="link">Get started</button>
-                        </li>
+
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-
-    <header class="p-header" id="header">
+    <header id="header" class="p-header">
         <div class="o-container">
-            <div class="o-grid o-grid--align-end o-grid--justify-center">
-                <div class="o-grid__item md-6 u-text-align-right">
-                    <h1 class="p-header__title">
-                        Simple framework that helps
-                        your code keeps clean
-                    </h1>
-                    <a href="#" class="c-btn">Get started</a>
-                </div>
-                <div class="o-grid__item md-3">
-                    <div class="c-logo">
-                        <img src="./assets/logo.png" alt="Karrot">
-                    </div>
-                </div>
-            </div>
+            <h1 class="p-header__title">
+                Karrot example starter
+            </h1>
+            <p class="p-header__text">
+                Welcome to Karrot's example starter. You can find here everything you need to start your project using
+                Karrot. Including webpack config (typescript, scss and html loaders), configured "tsconfig.json" file,
+                typescript linter configuration. This project also include advanced "SEM&BIO" scss structure, you can
+                read more <a href="https://css-tricks.com/combining-the-powers-of-sem-and-bio-for-improving-css/">here</a>.
+            </p>
+
         </div>
     </header>
-    <section class="p-features" id="features">
+    <section id="form-example">
         <div class="o-container">
-            <div class="o-grid">
-                <div class="o-grid__item lg-3">
-                    <div class="c-feature-card">
-                        <div class="c-feature-card__icon"><img src="./assets/feature-icon-1.png" alt></div>
-                        <h3 class="c-feature-card__title">
-                            Typescript based
-                        </h3>
-                        <p class="c-feature-card__text">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem amet magni esse?
-                        </p>
-                    </div>
-                </div>
-                <div class="o-grid__item lg-3">
-                    <div class="c-feature-card">
-                        <div class="c-feature-card__icon"><img src="./assets/feature-icon-2.png" alt></div>
-                        <h3 class="c-feature-card__title">
-                            Built-in plugins
-                        </h3>
-                        <p class="c-feature-card__text">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem amet magni esse?
-                        </p>
-                    </div>
-                </div>
-                <div class="o-grid__item lg-3">
-                    <div class="c-feature-card">
-                        <div class="c-feature-card__icon"><img src="./assets/feature-icon-3.png" alt></div>
-                        <h3 class="c-feature-card__title">
-                            Typescript based
-                        </h3>
-                        <p class="c-feature-card__text">
-                            Lorem, ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci consequuntur illum cupiditate eaque.
-                        </p>
-                    </div>
-                </div>
-                <div class="o-grid__item lg-3">
-                    <div class="c-feature-card">
-                        <div class="c-feature-card__icon"><img src="./assets/feature-icon-4.png" alt></div>
-                        <h3 class="c-feature-card__title">
-                            Typescript based
-                        </h3>
-                        <p class="c-feature-card__text">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem amet magni esse?
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="p-about"  id="about">
-        <div class="o-container">
-            <div class="o-grid">
-                <div class="o-grid__item xl-4">
-                    <h2 class="p-about__title">What is Karrot?</h2>
-
-                </div>
-                <div class="o-grid__item xl-7">
-                    <div class="p-about__text">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores a laborum cumque
-                            doloribus enim molestias voluptas aspernatur.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo maxime aliquam nesciunt eaque
-                            numquam pariatur dolor non mollitia eligendi tenetur veniam commodi sint, et rem minus nemo
-                            amet, possimus laudantium. Beatae in voluptatibus ipsa commodi? Ut, corporis voluptatum!</p>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi aliquid veritatis, amet
-                            iusto rem ipsum.</p>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    <section>
-        <div class="o-container">
-            <form k-item="form; formValidation; formAjax" data-a="raa" data-validation-type="mixed" class="c-form"
+            <h2 class="c-title">Form example</h2>
+            <form k-item="my-form" data-a="raa" data-validation-type="mixed" class="c-form jsFormValidation jsFormAjax"
                 action="https://jsonplaceholder.typicode.com/posts">
 
                 <div class="c-form__group">
@@ -150,9 +67,20 @@
                     <label for="name">Your email</label>
                     <input type="email" name="email" id="email" required>
                 </div>
+                <div class="c-form__group">
+                    <label for="select">Your email</label>
+                    <select name="select" id="select" required>
+                        <option value="" selected disabled>get item</option>
+                        <option value="a">a</option>
+                        <option value="b">b</option>
+                        <option value="c">c</option>
+                    </select>
+                </div>
                 <div class="c-form__checkbox">
-                    <label for="asd">Your email</label>
-                    <input type="checkbox" name="asd" id="aaa">
+                    <label>
+                        <input type="checkbox" name="asd" id="aaa" required>
+                        <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam, ipsum?</span>
+                    </label>
                 </div>
 
 
@@ -160,54 +88,10 @@
             </form>
             <div class="c-form-output" k-item="formOutput"></div>
 
+            <img k-item="lazy" data-src="./assets/logo.png" data-width="250" data-height="656" alt> Karrot
+
         </div>
     </section>
-    <footer id="footer">
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-        <h1>a</h1>
-    </footer>
-    <footer id="footer2">
-        <a href="#my-modal">mymodal</a>
-    </footer>
-    <div class="c-modal" k-item="modal; my-modal" data-modal-id="my-modal" data-close-on-confirm="false"
-        data-position-x="left" data-position-y="bottom">
-        asd
-        <a href="#" k-item="close">Close</a>
-        <a href="#" k-item="confirm">Confirm</a>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
-
 
 </body>
 

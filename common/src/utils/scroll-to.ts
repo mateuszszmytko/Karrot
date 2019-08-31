@@ -1,18 +1,18 @@
-type scrollToOptions = {
+export type TScrollToSettings = {
     easing: string,
     historyPush: boolean,
     offset: number,
     speed: number,
 };
 
-const defaultOptions: scrollToOptions = {
+const defaultOptions: TScrollToSettings = {
     easing: 'easeInOutCubic',
     historyPush: true,
     offset: 0,
     speed: 500,
 };
 
-export async function scrollTo(target: HTMLElement | string, options?: scrollToOptions): Promise<void> {
+export async function scrollTo(target: HTMLElement | string, options?: TScrollToSettings): Promise<void> {
     if (!options) {
         options = defaultOptions;
     }
@@ -35,7 +35,7 @@ class ScrollToManager {
     public endLocation: number = 0;
 
     protected targetHash: string = '';
-    constructor(public target: HTMLElement, public options: scrollToOptions) {
+    constructor(public target: HTMLElement, public options: TScrollToSettings) {
         this.targetHash = '#' + this.target.getAttribute('id');
 
     }

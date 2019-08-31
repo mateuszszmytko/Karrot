@@ -1,9 +1,8 @@
 import { Karrot } from "./karrot";
-import { Controller, Hooks } from "./controller";
-import { ISettings } from "./interfaces";
+import { KarrotItem } from "./karrot-item";
 
 class TestController {
-    constructor(private element: HTMLElement, private hooks: Hooks, settings: ISettings) {
+    constructor(private item: KarrotItem) {
         console.log('test controller constructor');
     }
     //
@@ -11,37 +10,35 @@ class TestController {
         console.log('test controller');
 
         setTimeout(() => {
-            this.hooks.doAction('test.init', this.element);
+            this.item.hooks.doAction('test.init', this.item.element);
         }, 200);
     }
 }
 
-class AppController extends Controller {
+class AppController {
     //
     public test = Karrot.get('my-p');
 
     constructor(element: HTMLElement) {
-        super(element);
 
         console.log('app controller constructor');
     }
 
     public kOnInit(): void {
-        console.log(this.element);
         console.log('app controller with test controller: ', this.test);
         if (this.test) {
-            this.test.addAction('test.init', () => {
+            this.test.hooks.addAction('test.init', () => {
                 console.log('test initialized');
             });
 
-            this.test.addAction('test.init', () => {
+            this.test.hooks.addAction('test.init', () => {
                 console.log('test initialized0');
             }, 99);
         }
     }
 }
 
-describe('Karrot class', () => {
+fdescribe('Karrot class', () => {
     beforeAll(() => {
         console.log('%c Karrot ', 'background: #222; color: #bada55');
 
@@ -53,7 +50,7 @@ describe('Karrot class', () => {
         `;
 
         document.body.insertAdjacentHTML('beforeend', fixture);
-        Karrot.init();
+
     });
 
     afterAll(() => {
@@ -70,7 +67,7 @@ describe('Karrot class', () => {
         expect(Karrot.getMany).toBeDefined();
         expect(Karrot.get).toBeDefined();
         expect(Karrot.attach).toBeDefined();
-        expect(Karrot.init).toBeDefined();
+
     });
 
     it('get method should returns what have in argument', () => {
@@ -79,7 +76,7 @@ describe('Karrot class', () => {
 
         const a = Karrot.get('my-i', TestController) as TestController;
         const aElement = Karrot.get('my-i', HTMLElement) as HTMLElement;
-
+        console.log(a, aElement, TestController);
         const _a = Karrot.get(aElement, TestController) as TestController;
 
         console.log(a, _a, 'a');

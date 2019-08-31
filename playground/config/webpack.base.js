@@ -1,9 +1,5 @@
 const path = require('path'),
-    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
-    OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"),
-    UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
-    autoprefixer = require('autoprefixer'),
-    HtmlWebpackPlugin = require('html-webpack-plugin');;
+    HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const srcDir = path.resolve(__dirname, '../../'); // resolve project src directory
 module.exports = {
@@ -12,13 +8,13 @@ module.exports = {
         polyfills: './src/polyfills.js',
         main: './src/page.js',
     },
-
     output: {
         path: path.resolve('./build'),
         publicPath: '',
         filename: '[name].js',
         chunkFilename: '[id].chunk.js'
     },
+    
     resolve: {
         extensions: ['.ts', '.tsx', ".js", ".json"],
         alias: {
@@ -31,7 +27,7 @@ module.exports = {
             { test: /\.ts?$/, use: "ts-loader" },
             {
                 test: /\.html$/,
-                loader: 'html-loader?attrs[]=img:src&attrs[]=video:src&attrs[]=source:src'
+                loader: 'html-loader?attrs[]=img:src&attrs[]=img:data-src&attrs[]=video:src&attrs[]=source:src'
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
@@ -47,6 +43,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             filename: 'index.html',
-        })
+            minify: {
+                collapseWhitespace: true
+            }
+        }),
     ]
 };

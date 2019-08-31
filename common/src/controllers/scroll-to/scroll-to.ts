@@ -1,29 +1,37 @@
-import { Hooks } from '@karrot/core';
-
-import { scrollTo } from '../../utils/scroll-to';
+import { KarrotItem } from '@karrot/core';
+import { scrollTo, TScrollToSettings } from '../../utils/scroll-to';
 
 export class ScrollTo {
-    public scrollTarget: HTMLElement;
+    public static defaultSettings: TScrollToSettings = {
+        easing: 'easeInOutCubic',
+        historyPush: true,
+        offset: 0,
+        speed: 500,
+    };
 
-    constructor(public element: HTMLElement, public hooks: Hooks) {
+    public scrollTarget: HTMLElement;
+    constructor(public item: KarrotItem) {
+        item.appendSettings(ScrollTo.defaultSettings);
     }
 
     public async kOnInit(): Promise<void> {
-        const targetSelector = this.element.getAttribute('href');
+        const targetSelector = this.item.element.getAttribute('href');
 
-        if (!targetSelector) {
+        if (!targetSelector || targetSelector === '#') {
+            console.warn('Href attribute is empty or is not valid: ' + targetSelector, this.item.element);
             return;
         }
 
         let scrollTarget = document.querySelector(targetSelector) as HTMLElement;
-
-        scrollTarget = await this.hooks.applyFilter(scrollTarget, 'scrollTo.target');
+        scrollTarget = await this.item.hooks.applyFilter(scrollTarget, 'scrollTo.target');
 
         if (scrollTarget) {
             this.scrollTarget = scrollTarget;
+        } else {
+            console.warn('Cannot find element with selector: ' + targetSelector);
         }
 
-        this.element.addEventListener('click', (e) => {
+        this.item.element.addEventListener('click', (e) => {
             this.onClick(e);
         });
     }
@@ -35,9 +43,9 @@ export class ScrollTo {
             return;
         }
 
-        await this.hooks.doAction('scrollTo.before', this.scrollTarget);
-        await scrollTo(this.scrollTarget);
-        await this.hooks.doAction('scrollTo.after', this.scrollTarget);
+        await this.item.hooks.doAction('scrollTo.before', this.scrollTarget);
+        await scrollTo(this.scrollTarget, this.item.settings as TScrollToSettings);
+        await this.item.hooks.doAction('scrollTo.after', this.scrollTarget);
     }
 
 }

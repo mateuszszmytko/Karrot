@@ -1,7 +1,8 @@
-import { Hooks, ISettings } from '@karrot/core';
+import { KarrotItem } from '../../../../core/bundles/src/karrot-item';
 export interface IFormActions {
     'formAjax.beforeSending'(): void;
     'formAjax.sent'(response: Response, formOutput: HTMLElement): void;
+    'formAjax.success'(response: Response, formOutput: HTMLElement): void;
     'formAjax.error'(error: unknown): void;
 }
 export interface IFormFilters {
@@ -13,16 +14,17 @@ declare type FormSettings = {
     defaultSentEvents: boolean;
     jsonResponseData: boolean;
     clearAfterSending: boolean;
+    clearHiddenAfterSending: boolean;
 };
 export declare class FormAjax {
-    element: HTMLFormElement;
-    hooks: Hooks<IFormActions, IFormFilters>;
-    settings: FormSettings;
+    item: KarrotItem<HTMLFormElement>;
+    defaultSettings: FormSettings;
     formOutput: HTMLElement | undefined;
     submit: HTMLElement | undefined;
     inputs: HTMLInputElement[];
+    selects: HTMLSelectElement[];
     private status;
-    constructor(element: HTMLFormElement, hooks: Hooks<IFormActions, IFormFilters>, settings: ISettings);
+    constructor(item: KarrotItem<HTMLFormElement>);
     kOnInit(): Promise<void>;
     protected onSubmit(e: Event): Promise<void>;
     protected formBeforeSending(): void;

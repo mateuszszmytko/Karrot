@@ -1,15 +1,15 @@
-import {  Hooks, ISettings } from '@karrot/core';
+import {  Hooks, ISettings, KarrotItem } from '@karrot/core';
 
 import { DOM } from '../../utils';
 
 export interface IFormActions {
-    error(capsule: InputValidationCapsule): void;
-    success(capsule: InputValidationCapsule): void;
-    result(isValid: boolean, capsules: InputValidationCapsule[]): void;
+    'formValidation.error'(capsule: InputValidationCapsule): void;
+    'formValidation.success'(capsule: InputValidationCapsule): void;
+    'formValidation.result'(isValid: boolean, capsules: InputValidationCapsule[]): void;
 }
 
 export interface IFormFilters {
-    inputValidation(capsule: InputValidationCapsule): InputValidationCapsule;
+    'formValidation.inputValidation'(capsule: InputValidationCapsule): InputValidationCapsule;
 }
 
 export type InputValidationCapsule = {
@@ -25,13 +25,20 @@ type FormSettings = {
 
 export class FormValidation {
     public inputs: HTMLInputElement[];
-    public settings: FormSettings = {
+    public defaultSettings: FormSettings = {
         defaultValidationEvents: true,
         validationType: 'mixed',
     };
 
-    constructor(public element: HTMLElement, public hooks: Hooks, settings: ISettings) {
-        this.settings = Object.assign({}, this.settings, settings);
+    public settings: ISettings = {};
+    public element: HTMLElement;
+    public hooks: Hooks;
+
+    constructor(public item: KarrotItem) {
+        // public element: HTMLElement, public hooks: Hooks, settings: ISettings
+        this.settings = item.appendSettings(this.defaultSettings);
+        this.element = item.element;
+        this.hooks = item.hooks;
     }
 
     public kOnInit(): void {
